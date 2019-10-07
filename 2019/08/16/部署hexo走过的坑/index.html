@@ -6,18 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>部署hexo走过的坑 | Hexo</title>
+  <title>部署hexo走过的坑 | Zzy Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="article">
+  <meta name="description" content="hexo的搭建提示hexo命令找不到 在系统的环境变量中加入自己博客系统的hexo路径 比如我的：J:\hexo\node_modules.bin  hexo就是我的博客系统所在的文件夹">
+<meta property="og:type" content="article">
 <meta property="og:title" content="部署hexo走过的坑">
 <meta property="og:url" content="http://yoursite.com/2019/08/16/部署hexo走过的坑/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:site_name" content="Zzy Blog">
+<meta property="og:description" content="hexo的搭建提示hexo命令找不到 在系统的环境变量中加入自己博客系统的hexo路径 比如我的：J:\hexo\node_modules.bin  hexo就是我的博客系统所在的文件夹">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-08-16T01:43:37.173Z">
+<meta property="og:updated_time" content="2019-10-07T08:43:56.899Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="部署hexo走过的坑">
+<meta name="twitter:description" content="hexo的搭建提示hexo命令找不到 在系统的环境变量中加入自己博客系统的hexo路径 比如我的：J:\hexo\node_modules.bin  hexo就是我的博客系统所在的文件夹">
   
-    <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="Zzy Blog" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -47,8 +50,10 @@
 			<img src="" class="js-avatar">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">John Doe</a></h1>
+		  <h1 class="header-author"><a href="/">Zzy</a></h1>
 		</hgroup>
+		
+		<p class="header-subtitle">积跬步,至千里</p>
 		
 
 		<nav class="header-menu">
@@ -57,6 +62,12 @@
 				<li><a href="/">主页</a></li>
 	        
 				<li><a href="/tags/随笔/">随笔</a></li>
+	        
+				<li><a href="/tags/js笔记/">js笔记</a></li>
+	        
+				<li><a href="/tags/php笔记/">php笔记</a></li>
+	        
+				<li><a href="/tags/渗透测试/">渗透测试</a></li>
 	        
 			</ul>
 		</nav>
@@ -105,10 +116,18 @@
 				<img src="" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">John Doe</h1>
+			  <h1 class="header-author js-header-author">Zzy</h1>
 			</hgroup>
 			
+			<p class="header-subtitle"><i class="icon icon-quo-left"></i>积跬步,至千里<i class="icon icon-quo-right"></i></p>
 			
+			
+			
+				
+			
+				
+			
+				
 			
 				
 			
@@ -131,12 +150,18 @@
 			</nav>
 
 			<nav class="header-menu js-header-menu">
-				<ul style="width: 50%">
+				<ul style="width: 70%">
 				
 				
-					<li style="width: 50%"><a href="/">主页</a></li>
+					<li style="width: 20%"><a href="/">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/tags/随笔/">随笔</a></li>
+					<li style="width: 20%"><a href="/tags/随笔/">随笔</a></li>
+		        
+					<li style="width: 20%"><a href="/tags/js笔记/">js笔记</a></li>
+		        
+					<li style="width: 20%"><a href="/tags/php笔记/">php笔记</a></li>
+		        
+					<li style="width: 20%"><a href="/tags/渗透测试/">渗透测试</a></li>
 		        
 				</ul>
 			</nav>
@@ -164,14 +189,21 @@
 
         
         <a href="/2019/08/16/部署hexo走过的坑/" class="archive-article-date">
-  	<time datetime="2019-08-16T01:43:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-16</time>
+  	<time datetime="2019-08-16T01:43:37.173Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-16</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h3 id="hexo的搭建"><a href="#hexo的搭建" class="headerlink" title="hexo的搭建"></a>hexo的搭建</h3><h4 id="提示hexo命令找不到"><a href="#提示hexo命令找不到" class="headerlink" title="提示hexo命令找不到"></a>提示hexo命令找不到</h4><ul>
+<li><h5 id="在系统的环境变量中加入自己博客系统的hexo路径"><a href="#在系统的环境变量中加入自己博客系统的hexo路径" class="headerlink" title="在系统的环境变量中加入自己博客系统的hexo路径"></a>在系统的环境变量中加入自己博客系统的hexo路径</h5></li>
+<li><p>比如我的：J:\hexo\node_modules.bin</p>
+</li>
+<li><p>hexo就是我的博客系统所在的文件夹</p>
+</li>
+</ul>
+
       
 
       
@@ -262,16 +294,6 @@
 </article>
 
   
-<nav id="article-nav">
-  
-  
-    <a href="/2019/08/16/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hello World</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -285,6 +307,19 @@
             </div>
         </div>
         
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#hexo的搭建"><span class="toc-number">1.</span> <span class="toc-text">hexo的搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#提示hexo命令找不到"><span class="toc-number">1.1.</span> <span class="toc-text">提示hexo命令找不到</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#在系统的环境变量中加入自己博客系统的hexo路径"><span class="toc-number">1.1.1.</span> <span class="toc-text">在系统的环境变量中加入自己博客系统的hexo路径</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
         
     </div>
 </aside>
@@ -309,7 +344,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 John Doe
+    		&copy; 2019 Zzy
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
