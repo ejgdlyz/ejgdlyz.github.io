@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>Markdown简介</title>
+      <link href="/2019/11/02/%E7%AE%80%E5%8D%95%E6%96%87%E7%AB%A0%E7%A4%BA%E4%BE%8B/"/>
+      <url>/2019/11/02/%E7%AE%80%E5%8D%95%E6%96%87%E7%AB%A0%E7%A4%BA%E4%BE%8B/</url>
+      
+        <content type="html"><![CDATA[<h5 id="文章简单介绍"><a href="#文章简单介绍" class="headerlink" title="文章简单介绍"></a>文章简单介绍</h5><h6 id="最简示例"><a href="#最简示例" class="headerlink" title="最简示例"></a>最简示例</h6><pre class=" language-yaml"><code class="language-yaml"><span class="token punctuation">---</span><span class="token key atrule">title</span><span class="token punctuation">:</span> typora<span class="token punctuation">-</span>vue<span class="token punctuation">-</span>theme主题介绍<span class="token key atrule">date</span><span class="token punctuation">:</span> <span class="token datetime number">2018-09-07 09:25:00</span><span class="token punctuation">---</span></code></pre><h6 id="最全示例"><a href="#最全示例" class="headerlink" title="最全示例"></a>最全示例</h6><pre class=" language-yaml"><code class="language-yaml"><span class="token punctuation">---</span><span class="token key atrule">title</span><span class="token punctuation">:</span> typora<span class="token punctuation">-</span>vue<span class="token punctuation">-</span>theme主题介绍<span class="token key atrule">date</span><span class="token punctuation">:</span> <span class="token datetime number">2018-09-07 09:25:00</span><span class="token key atrule">author</span><span class="token punctuation">:</span> xxx<span class="token key atrule">img</span><span class="token punctuation">:</span> /source/images/xxx.jpg<span class="token key atrule">top</span><span class="token punctuation">:</span> <span class="token boolean important">true</span><span class="token key atrule">cover</span><span class="token punctuation">:</span> <span class="token boolean important">true</span><span class="token key atrule">coverImg</span><span class="token punctuation">:</span> /images/1.jpg<span class="token key atrule">password</span><span class="token punctuation">:</span> 8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92<span class="token key atrule">toc</span><span class="token punctuation">:</span> <span class="token boolean important">false</span><span class="token key atrule">mathjax</span><span class="token punctuation">:</span> <span class="token boolean important">false</span><span class="token key atrule">summary</span><span class="token punctuation">:</span> 这是你自定义的文章摘要内容，如果这个属性有值，文章卡片摘要就显示这段文字，否则程序会自动截取文章的部分内容作为摘要<span class="token key atrule">categories</span><span class="token punctuation">:</span> Markdown<span class="token key atrule">tags</span><span class="token punctuation">:</span>  <span class="token punctuation">-</span> Typora  <span class="token punctuation">-</span> Markdown<span class="token punctuation">---</span></code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> Markdown </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> markdown </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>部署hexo走过的坑</title>
+      <link href="/2019/08/16/%E9%83%A8%E7%BD%B2hexo%E8%B5%B0%E8%BF%87%E7%9A%84%E5%9D%91/"/>
+      <url>/2019/08/16/%E9%83%A8%E7%BD%B2hexo%E8%B5%B0%E8%BF%87%E7%9A%84%E5%9D%91/</url>
+      
+        <content type="html"><![CDATA[<h3 id="hexo的搭建"><a href="#hexo的搭建" class="headerlink" title="hexo的搭建"></a>hexo的搭建</h3><h4 id="提示hexo命令找不到"><a href="#提示hexo命令找不到" class="headerlink" title="提示hexo命令找不到"></a>提示hexo命令找不到</h4><ul><li><h5 id="在系统的环境变量中加入自己博客系统的hexo路径"><a href="#在系统的环境变量中加入自己博客系统的hexo路径" class="headerlink" title="在系统的环境变量中加入自己博客系统的hexo路径"></a>在系统的环境变量中加入自己博客系统的hexo路径</h5></li><li><p>比如我的：J:\hexo\node_modules.bin</p></li><li><p>hexo就是我的博客系统所在的文件夹</p></li></ul><h4 id="git命令找不到"><a href="#git命令找不到" class="headerlink" title="git命令找不到"></a>git命令找不到</h4><pre class=" language-bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> hexo-deployer-git --save</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> hexo搭建 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> hexo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
