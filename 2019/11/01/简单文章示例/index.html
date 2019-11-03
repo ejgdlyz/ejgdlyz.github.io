@@ -811,7 +811,7 @@ date: 2018-0">
             contentSelector: '#articleContent',
             headingsOffset: -($(window).height() * 0.4 - 45),
             // headingsOffset: -205,
-            headingSelector: 'h2, h3, h4'
+            headingSelector: 'h2, h3, h4,h5,h6'
         });
 
         // modify the toc link href to support Chinese.
@@ -823,7 +823,7 @@ date: 2018-0">
 
         // modify the heading title id to support Chinese.
         i = 0;
-        $('#articleContent').children('h2, h3, h4').each(function () {
+        $('#articleContent').children('h2, h3, h4,h5,h6').each(function () {
             $(this).attr('id', tocHeading + (++i));
         });
 
