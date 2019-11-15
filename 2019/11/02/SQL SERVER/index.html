@@ -435,14 +435,14 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        5.7k
+                        8.1k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        25 分
+                        34 分
                     </div>
                     
                 
@@ -471,122 +471,90 @@
 <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> stu
 
 <span class="token keyword">update</span> stu <span class="token keyword">set</span>  平均成绩之和<span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword">select</span> 平均成绩<span class="token operator">+</span>新平均成绩 <span class="token keyword">from</span> stu <span class="token number">a</span> <span class="token keyword">where</span> <span class="token number">a</span><span class="token punctuation">.</span>学号<span class="token operator">=</span>stu<span class="token punctuation">.</span>学号<span class="token punctuation">)</span></code></pre>
-<h5 id="数据完整性"><a href="#数据完整性" class="headerlink" title="数据完整性"></a><strong>数据完整性</strong></h5><h6 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h6><p>实体完整性：表的每一行数据就称为一个实体，实体完整性是指 每一行记录是唯一的，不重复的</p>
-<p>​    标识列：系统自动生成，永远不会重复</p>
-<p>​    主键：唯一 非空</p>
-<p>​    唯一键：唯一 但是可以为null，只能空一次 </p>
-<p>域完整性：域就是字段，域完整性就是为了保证字段的值是合理和准确的</p>
-<p>​    非空 类型，check约束，默认值，关系（主外键约束）</p>
-<p>自定义完整性：用户自己定义的约束规则</p>
-<p>​    check约束 存储过程 触发器</p>
-<p>引用完整性：一个表的字段的值引用另外一个表的某一个字段，</p>
-<p>被引用的表称为主表，引用表就是称为从表或者外键表</p>
-<p>​    1.选择外键表去创建主外键关系</p>
-<p>​    2.建立主外键关系的字段类型和意义必须一致</p>
-<p>​    3.建立关系的字段 在主表中必须是主键或者是唯一键</p>
-<p>​    4.添加数据的时候先添加主表数据，再添加外键表</p>
-<p>​    5.删除数据的时候先删除外键表数据，再删除主表</p>
-<p>关系建立后表的级联操作</p>
-<p>​    1.不执行任何操作：该报错就报错，能删除就删除</p>
-<p>​    2.级联：删除主表记录，对应的从表记录也将被删除</p>
-<p>​    3.set null ：删除主表，从表对应记录的字段值=null，前提是这个字段可以设置为null</p>
-<p>​    4.set default :删除主表，从表对应记录的字段值=设置的默认值，前提是这个字段已经设置了默认值</p>
-<h6 id="使用代码创建约束"><a href="#使用代码创建约束" class="headerlink" title="使用代码创建约束"></a><strong>使用代码创建约束</strong></h6><p>–种类：主键约束（primary key PK） 唯一键约束(unique UQ) 检查约束（check CK ） 默认值约束(default DF)</p>
-<p>–外键约束(Foreign key FK)</p>
-<p><strong>–创建约束的语法：</strong></p>
-<p>–alter table 表名 </p>
-<p>–add constraint 约束的名字(以简写作为前缀) 约束的类型(字段,表达式 值)</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token keyword">use</span> test<span class="token punctuation">;</span>
+<h6 id="5-级联删除"><a href="#5-级联删除" class="headerlink" title="5.级联删除"></a>5.级联删除</h6><pre class=" language-sql"><code class="language-sql"><span class="token keyword">alter</span> <span class="token keyword">table</span> 表名 
+<span class="token keyword">add</span> <span class="token keyword">constraint</span> FK_ 表名1_ 字段名 <span class="token keyword">foreign</span> <span class="token keyword">key</span> <span class="token punctuation">(</span>字段名<span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">references</span> 表名<span class="token number">2</span><span class="token punctuation">(</span>字段名 <span class="token number">2</span><span class="token punctuation">)</span> <span class="token keyword">on</span> <span class="token keyword">delete</span> <span class="token keyword">cascade</span></code></pre>
+<p>6.规定大写</p>
+<p>collate Chinese_PRC_CS_AI</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> 商品名称<span class="token punctuation">,</span>单价 <span class="token keyword">from</span> 商品信息 <span class="token keyword">where</span> 商品名称 <span class="token operator">like</span> <span class="token string">'%O%'</span> <span class="token keyword">collate</span> Chinese_PRC_CS_AI</code></pre>
+<h5 id="表的基础操作-增删改查"><a href="#表的基础操作-增删改查" class="headerlink" title="表的基础操作(增删改查)"></a>表的基础操作(增删改查)</h5><p>表的创建</p>
+<p>create table 表名 (字段名1 字段类型,字段名2 字段类型 ,…)</p>
+<p>增：insert into 表名(字段名1 字段类型,字段名2 字段类型 ,…) values(值1,值2,…)</p>
+<p>删：delete from 表名 (删除全部数据)</p>
+<p>改：update 表名 set 字段名=值</p>
+<p>查： select * from 表名</p>
+<p>条件：like 模糊匹配</p>
+<p>基础语句（select,delete,update） where like  ‘%…%’</p>
+<p>案例：</p>
+<p>商品表，teacher表</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">delete</span> 商品信息 <span class="token keyword">where</span> 产地 <span class="token operator">like</span> <span class="token string">"%州%"</span>
 
-<span class="token keyword">create</span> <span class="token keyword">table</span> Teacher <span class="token punctuation">(</span>
+<span class="token keyword">insert</span> <span class="token keyword">into</span> 商品信息<span class="token punctuation">(</span>商品编号<span class="token punctuation">,</span>商品名称<span class="token punctuation">,</span>库存编号<span class="token punctuation">,</span>供应商编号<span class="token punctuation">,</span> 产地<span class="token punctuation">,</span>单价<span class="token punctuation">,</span>均价<span class="token punctuation">)</span> <span class="token keyword">values</span><span class="token punctuation">(</span><span class="token number">1021</span><span class="token punctuation">,</span><span class="token string">"4G DDR3内存"</span><span class="token punctuation">,</span><span class="token number">1008</span><span class="token punctuation">,</span><span class="token number">1002</span><span class="token punctuation">,</span><span class="token string">"广州市"</span><span class="token punctuation">,</span><span class="token number">199</span><span class="token punctuation">,</span><span class="token boolean">null</span><span class="token punctuation">)</span>
 
-id <span class="token keyword">int</span> <span class="token operator">not</span> <span class="token boolean">null</span><span class="token punctuation">,</span>
+<span class="token keyword">update</span> teacher <span class="token keyword">set</span> prof<span class="token operator">=</span><span class="token boolean">null</span> <span class="token keyword">where</span> sex<span class="token operator">=</span><span class="token string">"女"</span>
 
-Name nvarchar<span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span> <span class="token operator">not</span> <span class="token boolean">null</span><span class="token punctuation">,</span>
+<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> teacher <span class="token keyword">where</span> sex<span class="token operator">=</span><span class="token string">'女'</span><span class="token punctuation">;</span>
+</code></pre>
+<h5 id="表和列的增改"><a href="#表和列的增改" class="headerlink" title="表和列的增改"></a>表和列的增改</h5><p>为课程表增加一个备注字段，字段名bz,非Unicode编码</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">alter</span> <span class="token keyword">table</span> 课程 <span class="token keyword">add</span> bz <span class="token keyword">Text</span></code></pre>
+<p>将学生表的CJ字段改为成绩,CS改为出生</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">exec</span> sp_rename <span class="token string">'stu.CJ'</span><span class="token punctuation">,</span><span class="token string">'成绩'</span><span class="token punctuation">,</span><span class="token string">'column'</span><span class="token punctuation">;</span>
 
-Gender <span class="token keyword">bit</span> <span class="token operator">not</span> <span class="token boolean">null</span><span class="token punctuation">,</span>
+<span class="token keyword">exec</span> sp_rename <span class="token string">'XS.CS'</span><span class="token punctuation">,</span><span class="token string">'出生'</span><span class="token punctuation">,</span><span class="token string">'column'</span><span class="token punctuation">;</span></code></pre>
+<p>使用SQL语句创建借阅表，表名为JY，该表含书号字段SH注意字段名大小写(字符型,最多允许7个汉字或14字符)，学号字段XH(字符型,最多允许5个汉字或11字符)，借阅日期字段JYRQ和归还时间字段GHSJ都是DateTime类型，并添加如下内容(日期格式可能不同,注意字段名大小写)：</p>
+<p>SH             XH          JYRQ                GHSJ</p>
+<hr>
+<p>1              20120881101 2011-02-21          2013-04-16</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">table</span> JY<span class="token punctuation">(</span>SH <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">14</span><span class="token punctuation">)</span><span class="token punctuation">,</span>XH <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span><span class="token punctuation">,</span>JYRQ <span class="token keyword">datetime</span><span class="token punctuation">,</span>GHSJ <span class="token keyword">datetime</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">insert</span> <span class="token keyword">into</span> JY<span class="token punctuation">(</span>SH<span class="token punctuation">,</span>XH<span class="token punctuation">,</span>JYRQ<span class="token punctuation">,</span>GHSJ<span class="token punctuation">)</span> <span class="token keyword">values</span><span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">,</span><span class="token string">'20120881101'</span><span class="token punctuation">,</span><span class="token string">'2011-02-21'</span><span class="token punctuation">,</span><span class="token string">'2013-04-16'</span><span class="token punctuation">)</span> <span class="token punctuation">;</span></code></pre>
+<p>已知学生表XS有学号、姓名、毕业院校、成绩(CJ)等字段，请写一个SQL语句将删除成绩(CJ)字段</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">alter</span> <span class="token keyword">table</span> XS <span class="token keyword">drop</span> <span class="token keyword">column</span> CJ</code></pre>
+<p>已知学生表XS有学号、姓名、毕业院校、成绩(CJ)等字段，请写一个SQL语句成绩(CJ)字段类型改为浮点型(Float)。</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">alter</span> <span class="token keyword">table</span> xs <span class="token keyword">alter</span> CJ <span class="token keyword">float</span></code></pre>
+<h5 id="记录的增删改"><a href="#记录的增删改" class="headerlink" title="记录的增删改"></a>记录的增删改</h5><p>1.已知商品信息表含有商品编号,商品名称,库存编号,供应商编号,产地,单价,均价等字段，请写一个SQL语句将各供应商所有商品单价的平均价格写入均价字段。执行结果如下：<br>供应商编号 商品名称                             单价       均价</p>
+<hr>
+<p>1001        DRAGONKING 1GB内存                   805      497.5<br>1001       CREATIVE SBS 2.1 380音箱              190      497.5<br>1002       Intel D915GVWB主板                  863.5    1046.65<br>1002       三星 795MB CRT显示器               1229.8    1046.65<br>1003       Maxtor 40G硬盘                     514.25     514.25</p>
+<p>…</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">update</span> 商品信息 <span class="token keyword">set</span> 均价<span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword">select</span> <span class="token function">avg</span><span class="token punctuation">(</span>单价<span class="token punctuation">)</span> <span class="token keyword">from</span> 商品信息 <span class="token number">a</span> <span class="token keyword">where</span> <span class="token number">a</span><span class="token punctuation">.</span>供应商编号<span class="token operator">=</span>商品信息<span class="token punctuation">.</span>供应商编号<span class="token punctuation">)</span>
+<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> 商品信息 <span class="token keyword">order</span> <span class="token keyword">by</span> 供应商编号 </code></pre>
+<p>2.现要对学生表(xs)的成绩(字段名为CJ)进行加分，加分的规则是成绩为偶数的加1分，成绩为奇数的加2分</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">update</span> xs <span class="token keyword">set</span> cj<span class="token operator">=</span><span class="token keyword">case</span> 
 
-Age <span class="token keyword">int</span> <span class="token punctuation">,</span>
+<span class="token keyword">when</span> cj<span class="token operator">%</span><span class="token number">2</span><span class="token operator">=</span><span class="token number">0</span> <span class="token keyword">then</span> cj<span class="token operator">+</span><span class="token number">1</span>
 
-Salary money<span class="token punctuation">,</span>
+<span class="token keyword">when</span> cj<span class="token operator">%</span><span class="token number">2</span><span class="token operator">!=</span><span class="token number">0</span> <span class="token keyword">then</span> cj<span class="token operator">+</span><span class="token number">2</span> 
+<span class="token comment" spellcheck="true">/*when CJ=NULL then NULL*/</span>
 
-Birthday <span class="token keyword">datetime</span> <span class="token operator">not</span> <span class="token boolean">null</span>
-
-<span class="token punctuation">)</span></code></pre>
-<p><strong>teacher表</strong></p>
-<img src="http://116.62.203.42/img/1.jpg" alt="img" style="zoom:80%;"> 
-
-<p><strong>classes表</strong></p>
-<pre class=" language-sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">table</span> classes<span class="token punctuation">(</span>cid <span class="token keyword">int</span> <span class="token keyword">identity</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">constraint</span> PK_classes_cid <span class="token keyword">primary</span> <span class="token keyword">key</span> <span class="token punctuation">,</span>cname <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
-<img src="http://116.62.203.42/img/2.jpg" alt="img" style="zoom:80%;"> 
-
-
-
-<p>–1.将id设置为主键</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token keyword">alter</span> <span class="token keyword">table</span> Teacher
-
-<span class="token keyword">add</span> <span class="token keyword">constraint</span> PK_Teacher_Id <span class="token keyword">primary</span> <span class="token keyword">key</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span></code></pre>
-<p>–2.设置name为唯一键</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token keyword">if</span> <span class="token keyword">exists</span><span class="token punctuation">(</span><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> sysobjects <span class="token keyword">where</span> name<span class="token operator">=</span><span class="token string">'UQ_Teacher_Name'</span><span class="token punctuation">)</span>
-
-​    <span class="token keyword">alter</span> <span class="token keyword">table</span> teacher <span class="token keyword">drop</span> <span class="token keyword">constraint</span> UQ_Teacher_Name
-
-<span class="token keyword">alter</span> <span class="token keyword">table</span> Teacher 
-
-<span class="token keyword">add</span> <span class="token keyword">constraint</span> UQ_Teacher_Name <span class="token keyword">unique</span><span class="token punctuation">(</span>Name<span class="token punctuation">)</span></code></pre>
-<p>–3.设置年龄0-100之间</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token keyword">if</span> <span class="token keyword">exists</span><span class="token punctuation">(</span><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> sysobjects <span class="token keyword">where</span> name<span class="token operator">=</span><span class="token string">'CK_Teacher_Age'</span><span class="token punctuation">)</span>
-
-​    <span class="token keyword">alter</span> <span class="token keyword">table</span> teacher <span class="token keyword">drop</span> <span class="token keyword">constraint</span> CK_Teacher_Age
-
-<span class="token keyword">alter</span> <span class="token keyword">table</span> teacher
-
-<span class="token keyword">ADD</span> <span class="token keyword">constraint</span> CK_Teacher_Age <span class="token keyword">check</span><span class="token punctuation">(</span>Age<span class="token operator">></span><span class="token number">0</span> <span class="token operator">and</span> Age<span class="token operator">&lt;</span><span class="token number">100</span><span class="token punctuation">)</span></code></pre>
-<p>–4.为birthday添加默认值</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token keyword">if</span> <span class="token keyword">exists</span><span class="token punctuation">(</span><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> sysobjects <span class="token keyword">where</span> name<span class="token operator">=</span><span class="token string">'DF_Teacher_Birthday'</span><span class="token punctuation">)</span>
-
-​    <span class="token keyword">alter</span> <span class="token keyword">table</span> teacher <span class="token keyword">drop</span> <span class="token keyword">constraint</span> DF_Teacher_Birthday
-
-<span class="token keyword">alter</span> <span class="token keyword">table</span> teacher 
-
-<span class="token keyword">add</span> <span class="token keyword">constraint</span> DF_Teacher_Birthday <span class="token keyword">default</span><span class="token punctuation">(</span><span class="token string">'1999-9-9'</span><span class="token punctuation">)</span> <span class="token keyword">for</span> birthday  <span class="token comment" spellcheck="true">--for是说明为哪一个字段添加</span></code></pre>
-<p>–5.为ClassId添加外键约束</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token keyword">alter</span> <span class="token keyword">table</span> teacher <span class="token comment" spellcheck="true">--从表的某一个字段，引用主表的某一个字段</span>
-
-<span class="token keyword">add</span> <span class="token keyword">constraint</span> FK_teacher_ClassId <span class="token keyword">foreign</span> <span class="token keyword">key</span><span class="token punctuation">(</span>classid<span class="token punctuation">)</span> <span class="token keyword">references</span> classes<span class="token punctuation">(</span>cid<span class="token punctuation">)</span></code></pre>
-<h6 id="级联操作"><a href="#级联操作" class="headerlink" title="级联操作"></a>级联操作</h6><pre class=" language-sql"><code class="language-sql"><span class="token keyword">if</span> <span class="token keyword">exists</span><span class="token punctuation">(</span><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> sysobjects <span class="token keyword">where</span> name<span class="token operator">=</span><span class="token string">'FK_teacher_ClassId'</span><span class="token punctuation">)</span>
-
-​    <span class="token keyword">alter</span> <span class="token keyword">table</span> teacher <span class="token keyword">drop</span> <span class="token keyword">constraint</span> FK_teacher_ClassId
-
-<span class="token keyword">alter</span> <span class="token keyword">table</span> teacher <span class="token comment" spellcheck="true">--从表的某一个字段，引用主表的某一个字段</span>
-
-<span class="token keyword">with</span> <span class="token keyword">nocheck</span> <span class="token comment" spellcheck="true">--不检查现有数据</span>
-
-<span class="token keyword">add</span> <span class="token keyword">constraint</span> FK_teacher_ClassId <span class="token keyword">foreign</span> <span class="token keyword">key</span><span class="token punctuation">(</span>classid<span class="token punctuation">)</span> <span class="token keyword">references</span> classes<span class="token punctuation">(</span>cid<span class="token punctuation">)</span>
-
-<span class="token comment" spellcheck="true">--on delete Set null --删除主表数据，从表引用的数据设为null</span></code></pre>
-<p><strong>subject表</strong></p>
-<img src="http://116.62.203.42/img/3.jpg" alt="img" style="zoom:80%;"> 
-
-<p><strong>student表</strong></p>
-<img src="http://116.62.203.42/img/4.jpg" alt="img" style="zoom:80%;"> 
-
-<p><strong>result表</strong></p>
-<img src="http://116.62.203.42/img/5.jpg" alt="img" style="zoom:80%;"> 
-
-
-
-<p>1.设置外键</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">table</span> dept<span class="token punctuation">(</span>depno <span class="token keyword">int</span> <span class="token keyword">primary</span> <span class="token keyword">key</span><span class="token punctuation">)</span>
-
-<span class="token keyword">create</span> <span class="token keyword">table</span> emp<span class="token punctuation">(</span>empno <span class="token keyword">int</span> <span class="token keyword">primary</span> <span class="token keyword">key</span><span class="token punctuation">,</span>ename nvarchar<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span>deptno <span class="token keyword">int</span> <span class="token keyword">foreign</span> <span class="token keyword">key</span> <span class="token keyword">references</span> dept<span class="token punctuation">(</span>deptno<span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
-<p>外键的数据类型和主键一致</p>
-<p>外键只能指向主键</p>
-<p>保持数据的完整性</p>
+<span class="token keyword">end</span></code></pre>
+<p>3.已知学生表XS有学号、姓名、毕业院校、成绩(CJ)等字段，请写一个SQL语句将不及格学生的学号和姓名按学号升序写入补考名单表(<strong>该表已经存在不能再创建</strong>)中。</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">insert</span> <span class="token keyword">into</span> 补考名单<span class="token punctuation">(</span>学号<span class="token punctuation">,</span>姓名<span class="token punctuation">)</span> <span class="token keyword">select</span> 学号<span class="token punctuation">,</span>姓名 <span class="token keyword">from</span> xs <span class="token keyword">where</span> cj<span class="token operator">&lt;</span><span class="token number">60</span> <span class="token keyword">order</span> <span class="token keyword">by</span> 学号</code></pre>
+<p>4.已知学生表XS有学号、姓名、毕业院校、成绩(CJ)等字段，请写一个SQL语句将不及格学生的学号和姓名按学号升序写入resit表(<strong>该表不存在，执行时创建</strong>)中</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> 学号<span class="token punctuation">,</span>姓名 <span class="token keyword">into</span> resit <span class="token keyword">from</span> xs <span class="token keyword">where</span> cj<span class="token operator">&lt;</span><span class="token number">60</span> <span class="token keyword">order</span> <span class="token keyword">by</span> 学号</code></pre>
+<p>5.已知商品信息表有商品编号、商品名称、产地等字段，请写一个SQL语句将各产地及其商品数信息按产地升序写入产地商品数表(该表已经存在不能再创建)中</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">insert</span> <span class="token keyword">into</span> 产地商品数 <span class="token keyword">select</span> 产地<span class="token punctuation">,</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword">from</span> 商品信息 <span class="token keyword">group</span> <span class="token keyword">by</span> 产地 <span class="token keyword">order</span> <span class="token keyword">by</span> 产地</code></pre>
+<p>6.已知计算机登录信息表PCInfo含有XH,Host,LogT等字段，该表用于每台计算机登录服务器的时间，现要求只保留每台计算机最后一次登录的信息，请写一个SQL语句将各计算机历史登录信息删除</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">delete</span> <span class="token keyword">from</span> Pcinfo <span class="token keyword">where</span> xh <span class="token operator">&lt;</span><span class="token punctuation">(</span><span class="token keyword">select</span> <span class="token function">max</span><span class="token punctuation">(</span>xh<span class="token punctuation">)</span> <span class="token keyword">from</span> pcinfo <span class="token number">a</span> <span class="token keyword">where</span> <span class="token number">a</span><span class="token punctuation">.</span>host<span class="token operator">=</span>pcinfo<span class="token punctuation">.</span>host<span class="token punctuation">)</span></code></pre>
+<p>7.已知商品信息表有商品编号、商品名称、供应商编号等字段，供应商信息表有编号、供应商名称、产品数量等字段，请写一个SQL语句统计各供应商的产品数量并写入供应商信息表产品数量字段中</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">update</span> 供应商信息 <span class="token keyword">set</span> 产品数量 <span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword">select</span> <span class="token function">count</span><span class="token punctuation">(</span>商品名称<span class="token punctuation">)</span> <span class="token keyword">from</span> 商品信息 <span class="token keyword">where</span> 供应商信息<span class="token punctuation">.</span>编号<span class="token operator">=</span>商品信息<span class="token punctuation">.</span>商品编号 <span class="token keyword">group</span> <span class="token keyword">by</span> 供应商编号<span class="token punctuation">)</span>
+<span class="token keyword">update</span> 供应商信息 <span class="token keyword">set</span> 产品数量<span class="token operator">=</span><span class="token number">0</span> <span class="token keyword">where</span> 产品数量 <span class="token operator">is</span> <span class="token boolean">null</span></code></pre>
 <h5 id="简单查询"><a href="#简单查询" class="headerlink" title="简单查询"></a>简单查询</h5><p>1.显示每个雇员的年工资(基础工资加奖金)</p>
 <pre class=" language-sql"><code class="language-sql"><span class="token keyword">Select</span> sal<span class="token operator">*</span><span class="token number">13</span><span class="token operator">+</span>isnull<span class="token punctuation">(</span>comm<span class="token operator">*</span><span class="token number">13</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">from</span> emp</code></pre>
 <p>2.显示所有员工中的最低工资和该员工的名字</p>
 <pre class=" language-sql"><code class="language-sql"><span class="token keyword">Select</span> ename <span class="token keyword">from</span> emp <span class="token keyword">where</span> sal<span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword">select</span> <span class="token function">min</span><span class="token punctuation">(</span>sal<span class="token punctuation">)</span> <span class="token keyword">from</span> emp<span class="token punctuation">)</span></code></pre>
+<p>3.已知学生表XS有学号、姓名、毕业院校、成绩(CJ)、出生(CS)等字段，请写一个SQL语句显示姓名中含有“荣”的学生姓名</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> 姓名 <span class="token keyword">from</span> xs <span class="token keyword">where</span> 姓名 <span class="token operator">like</span> <span class="token string">'%荣%'</span></code></pre>
+<p>4.已知学生表XS有学号、姓名、毕业院校等字段，请写一个SQL语句显示毕业院校含“职业”两个字的学生学号，并按升序显示</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> 学号 <span class="token keyword">from</span> xs <span class="token keyword">where</span> 毕业院校 <span class="token operator">like</span> <span class="token string">'%职业%'</span> <span class="token keyword">order</span> <span class="token keyword">by</span> 学号</code></pre>
+<p>5.已知选修表score(sno,cno,degree),查询课程号(cno)为’c02’和’c03’课程的选课人数</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> cno<span class="token punctuation">,</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> 选课人数 <span class="token keyword">from</span> score <span class="token keyword">where</span> cno<span class="token operator">=</span><span class="token string">'c02'</span> <span class="token operator">or</span> cno<span class="token operator">=</span><span class="token string">'c03'</span> <span class="token keyword">group</span> <span class="token keyword">by</span> cno </code></pre>
+<p>6.已知学生表XS有学号、姓名、毕业院校、成绩(CJ)等字段，请写一个SQL语句显示所有参加考试学生的平均成绩(保留4位小数)。结果显示如下：</p>
+<p>平均成绩</p>
+<p>——————<br>   76.0625</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token keyword">convert</span><span class="token punctuation">(</span> <span class="token keyword">decimal</span><span class="token punctuation">(</span><span class="token number">15</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token function">avg</span><span class="token punctuation">(</span><span class="token number">1.0</span><span class="token operator">*</span>CJ<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">AS</span> 平均成绩 <span class="token keyword">from</span> xs
+<span class="token keyword">select</span> cast<span class="token punctuation">(</span><span class="token function">avg</span><span class="token punctuation">(</span><span class="token number">1.0</span><span class="token operator">*</span>CJ<span class="token punctuation">)</span> <span class="token keyword">as</span> <span class="token keyword">decimal</span><span class="token punctuation">(</span><span class="token number">15</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span> <span class="token punctuation">)</span> <span class="token keyword">AS</span> 平均成绩 <span class="token keyword">from</span> xs</code></pre>
+<p>7.已知教师表teacher(tno,tname,sex,birthday,prof,depart)，查询姓名(tname)为两个汉字的教师工号(tno)、姓名(tname)、职称(prof)和所在院系(depart)等信息</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> tno<span class="token punctuation">,</span>tname<span class="token punctuation">,</span>prof<span class="token punctuation">,</span>depart <span class="token keyword">from</span> teacher <span class="token keyword">where</span> tname <span class="token operator">like</span> <span class="token string">'__'</span></code></pre>
+<p>8.已知学生表XS(学号,姓名,CS,毕业院校,CJ)，请写一个SQL语句显示都有哪些毕业院校，一个院校有多个学生，只要显示一次，并按升序显示</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token keyword">distinct</span> 毕业院校 <span class="token keyword">from</span> XS <span class="token keyword">order</span> <span class="token keyword">by</span> 毕业院校</code></pre>
 <h5 id="表的复杂查询"><a href="#表的复杂查询" class="headerlink" title="表的复杂查询"></a>表的复杂查询</h5><h6 id="1-Group-by-和having-语句"><a href="#1-Group-by-和having-语句" class="headerlink" title="1.Group by 和having 语句"></a><strong>1.Group by 和having 语句</strong></h6><p>Group by对查询结果进行分组统计</p>
 <p>Having用于     限制分组产生的结果</p>
 <p>例：</p>
@@ -759,6 +727,15 @@ goodsid nvarchar<span class="token punctuation">(</span><span class="token numbe
 nums <span class="token keyword">int</span> <span class="token keyword">check</span> <span class="token punctuation">(</span>nums<span class="token operator">></span><span class="token number">0</span><span class="token punctuation">)</span>
 
 <span class="token punctuation">)</span></code></pre>
+<h5 id="表的连接"><a href="#表的连接" class="headerlink" title="表的连接"></a>表的连接</h5><p>1.已知字母表L的内容如下：<br>C</p>
+<p>————————<br>A<br>B<br>C<br>D<br>E<br>请写一多表查询语句，显示5个字母中任取3字母的组合，内容如下(按组合从小到大排序)：<br>组合</p>
+<p>————————<br>ABC<br>ABD<br>ABE<br>ACD<br>ACE<br>ADE<br>BCD<br>BCE<br>BDE<br>CDE </p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> L1<span class="token punctuation">.</span>C<span class="token operator">+</span>L2<span class="token punctuation">.</span>C<span class="token operator">+</span>L3<span class="token number">.c</span> 组合 <span class="token keyword">from</span> L L1<span class="token punctuation">,</span>L L2<span class="token punctuation">,</span>L L3 <span class="token keyword">where</span> L1<span class="token number">.c</span><span class="token operator">&lt;</span>L<span class="token number">.c</span> <span class="token operator">and</span> L2<span class="token number">.c</span><span class="token operator">&lt;</span>L3<span class="token number">.c</span></code></pre>
+<p>2.请根据学生表XS(学号,姓名,CS,毕业院校,CJ)、选修表XX(xh,kh,CJ)、课程表C(kh,km,RS)，写一多表查询语句，显示同一天生日的学生信息，内容如下：<br>学号           姓名     学号           姓名     BIRTH<br>————————————————————<br>20100881205  王聪慧    20100881210  郭闻娟    01-01<br>20100881205  王聪慧    20100881211  邹艺荣    01-01</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token number">a</span><span class="token punctuation">.</span>学号 <span class="token punctuation">,</span><span class="token number">a</span><span class="token punctuation">.</span>姓名 <span class="token punctuation">,</span><span class="token number">b</span><span class="token punctuation">.</span>学号 <span class="token punctuation">,</span><span class="token number">b</span><span class="token punctuation">.</span>姓名<span class="token punctuation">,</span> <span class="token keyword">right</span><span class="token punctuation">(</span><span class="token keyword">convert</span><span class="token punctuation">(</span><span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">a</span><span class="token punctuation">.</span>CS <span class="token punctuation">,</span><span class="token number">120</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span> BIRTH <span class="token keyword">from</span> xs <span class="token number">a</span> <span class="token punctuation">,</span> xs <span class="token number">b</span> <span class="token keyword">where</span> <span class="token number">a</span><span class="token punctuation">.</span>学号<span class="token operator">&lt;</span><span class="token number">b</span><span class="token punctuation">.</span>学号 <span class="token operator">and</span> <span class="token keyword">right</span><span class="token punctuation">(</span><span class="token keyword">convert</span><span class="token punctuation">(</span><span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">a</span><span class="token punctuation">.</span>CS <span class="token punctuation">,</span><span class="token number">120</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token operator">=</span><span class="token keyword">right</span><span class="token punctuation">(</span><span class="token keyword">convert</span><span class="token punctuation">(</span><span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">b</span><span class="token punctuation">.</span>CS <span class="token punctuation">,</span><span class="token number">120</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span></code></pre>
+<p>3.请根据学生表XS(学号,姓名,CS,毕业院校,CJ)、选修表XX(xh,kh,CJ)、课程表C(kh,km,RS)，写一多表查询语句，显示各课程的选修情况(含无人选修课程信息)。</p>
+<p>XH                   KH KM                   CJ<br>————————————————————<br>20100881201        1001 C语言                80<br>20100881203        1001 C语言                56</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> xs<span class="token punctuation">.</span>XH<span class="token punctuation">,</span>XX<span class="token punctuation">.</span>KH<span class="token punctuation">,</span><span class="token number">c</span><span class="token punctuation">.</span>KM<span class="token punctuation">,</span>xx<span class="token punctuation">.</span>CJ <span class="token keyword">from</span> xs <span class="token keyword">left</span> <span class="token keyword">join</span> xx <span class="token keyword">on</span> xs<span class="token punctuation">.</span>学号<span class="token operator">=</span>xx<span class="token punctuation">.</span>xh <span class="token keyword">right</span> <span class="token keyword">join</span> <span class="token number">c</span> <span class="token keyword">on</span> <span class="token number">c</span><span class="token punctuation">.</span>kh<span class="token operator">=</span>xx<span class="token punctuation">.</span>kh </code></pre>
 <h5 id="case-语句"><a href="#case-语句" class="headerlink" title="case 语句"></a><strong>case 语句</strong></h5><p>1)如果case后面跟表达式或字段，那么这种结构只能做等值判断，不能判断null值</p>
 <p>case 表达式/字段</p>
 <p> when 值then 自定义值</p>
@@ -770,6 +747,118 @@ nums <span class="token keyword">int</span> <span class="token keyword">check</s
 <p> when 值then 自定义值</p>
 <p>else 自定义值</p>
 <p>end</p>
+<h5 id="数据完整性"><a href="#数据完整性" class="headerlink" title="数据完整性"></a><strong>数据完整性</strong></h5><h6 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h6><p>实体完整性：表的每一行数据就称为一个实体，实体完整性是指 每一行记录是唯一的，不重复的</p>
+<p>​    标识列：系统自动生成，永远不会重复</p>
+<p>​    主键：唯一 非空</p>
+<p>​    唯一键：唯一 但是可以为null，只能空一次 </p>
+<p>域完整性：域就是字段，域完整性就是为了保证字段的值是合理和准确的</p>
+<p>​    非空 类型，check约束，默认值，关系（主外键约束）</p>
+<p>自定义完整性：用户自己定义的约束规则</p>
+<p>​    check约束 存储过程 触发器</p>
+<p>引用完整性：一个表的字段的值引用另外一个表的某一个字段，</p>
+<p>被引用的表称为主表，引用表就是称为从表或者外键表</p>
+<p>​    1.选择外键表去创建主外键关系</p>
+<p>​    2.建立主外键关系的字段类型和意义必须一致</p>
+<p>​    3.建立关系的字段 在主表中必须是主键或者是唯一键</p>
+<p>​    4.添加数据的时候先添加主表数据，再添加外键表</p>
+<p>​    5.删除数据的时候先删除外键表数据，再删除主表</p>
+<p>关系建立后表的级联操作</p>
+<p>​    1.不执行任何操作：该报错就报错，能删除就删除</p>
+<p>​    2.级联：删除主表记录，对应的从表记录也将被删除</p>
+<p>​    3.set null ：删除主表，从表对应记录的字段值=null，前提是这个字段可以设置为null</p>
+<p>​    4.set default :删除主表，从表对应记录的字段值=设置的默认值，前提是这个字段已经设置了默认值</p>
+<h6 id="使用代码创建约束"><a href="#使用代码创建约束" class="headerlink" title="使用代码创建约束"></a><strong>使用代码创建约束</strong></h6><p>–种类：主键约束（primary key PK） 唯一键约束(unique UQ) 检查约束（check CK ） 默认值约束(default DF)</p>
+<p>–外键约束(Foreign key FK)</p>
+<p><strong>–创建约束的语法：</strong></p>
+<p>–alter table 表名 </p>
+<p>–add constraint 约束的名字(以简写作为前缀) 约束的类型(字段,表达式 值)</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">use</span> test<span class="token punctuation">;</span>
+
+<span class="token keyword">create</span> <span class="token keyword">table</span> Teacher <span class="token punctuation">(</span>
+
+id <span class="token keyword">int</span> <span class="token operator">not</span> <span class="token boolean">null</span><span class="token punctuation">,</span>
+
+Name nvarchar<span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span> <span class="token operator">not</span> <span class="token boolean">null</span><span class="token punctuation">,</span>
+
+Gender <span class="token keyword">bit</span> <span class="token operator">not</span> <span class="token boolean">null</span><span class="token punctuation">,</span>
+
+Age <span class="token keyword">int</span> <span class="token punctuation">,</span>
+
+Salary money<span class="token punctuation">,</span>
+
+Birthday <span class="token keyword">datetime</span> <span class="token operator">not</span> <span class="token boolean">null</span>
+
+<span class="token punctuation">)</span></code></pre>
+<p><strong>teacher表</strong></p>
+<img src="http://116.62.203.42/img/1.jpg" alt="img" style="zoom:80%;"> 
+
+<p><strong>classes表</strong></p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">table</span> classes<span class="token punctuation">(</span>cid <span class="token keyword">int</span> <span class="token keyword">identity</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">constraint</span> PK_classes_cid <span class="token keyword">primary</span> <span class="token keyword">key</span> <span class="token punctuation">,</span>cname <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+<img src="http://116.62.203.42/img/2.jpg" alt="img" style="zoom:80%;"> 
+
+
+
+<p>–1.将id设置为主键</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">alter</span> <span class="token keyword">table</span> Teacher
+
+<span class="token keyword">add</span> <span class="token keyword">constraint</span> PK_Teacher_Id <span class="token keyword">primary</span> <span class="token keyword">key</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span></code></pre>
+<p>–2.设置name为唯一键</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">if</span> <span class="token keyword">exists</span><span class="token punctuation">(</span><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> sysobjects <span class="token keyword">where</span> name<span class="token operator">=</span><span class="token string">'UQ_Teacher_Name'</span><span class="token punctuation">)</span>
+
+​    <span class="token keyword">alter</span> <span class="token keyword">table</span> teacher <span class="token keyword">drop</span> <span class="token keyword">constraint</span> UQ_Teacher_Name
+
+<span class="token keyword">alter</span> <span class="token keyword">table</span> Teacher 
+
+<span class="token keyword">add</span> <span class="token keyword">constraint</span> UQ_Teacher_Name <span class="token keyword">unique</span><span class="token punctuation">(</span>Name<span class="token punctuation">)</span></code></pre>
+<p>–3.设置年龄0-100之间</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">if</span> <span class="token keyword">exists</span><span class="token punctuation">(</span><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> sysobjects <span class="token keyword">where</span> name<span class="token operator">=</span><span class="token string">'CK_Teacher_Age'</span><span class="token punctuation">)</span>
+
+​    <span class="token keyword">alter</span> <span class="token keyword">table</span> teacher <span class="token keyword">drop</span> <span class="token keyword">constraint</span> CK_Teacher_Age
+
+<span class="token keyword">alter</span> <span class="token keyword">table</span> teacher
+
+<span class="token keyword">ADD</span> <span class="token keyword">constraint</span> CK_Teacher_Age <span class="token keyword">check</span><span class="token punctuation">(</span>Age<span class="token operator">></span><span class="token number">0</span> <span class="token operator">and</span> Age<span class="token operator">&lt;</span><span class="token number">100</span><span class="token punctuation">)</span></code></pre>
+<p>–4.为birthday添加默认值</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">if</span> <span class="token keyword">exists</span><span class="token punctuation">(</span><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> sysobjects <span class="token keyword">where</span> name<span class="token operator">=</span><span class="token string">'DF_Teacher_Birthday'</span><span class="token punctuation">)</span>
+
+​    <span class="token keyword">alter</span> <span class="token keyword">table</span> teacher <span class="token keyword">drop</span> <span class="token keyword">constraint</span> DF_Teacher_Birthday
+
+<span class="token keyword">alter</span> <span class="token keyword">table</span> teacher 
+
+<span class="token keyword">add</span> <span class="token keyword">constraint</span> DF_Teacher_Birthday <span class="token keyword">default</span><span class="token punctuation">(</span><span class="token string">'1999-9-9'</span><span class="token punctuation">)</span> <span class="token keyword">for</span> birthday  <span class="token comment" spellcheck="true">--for是说明为哪一个字段添加</span></code></pre>
+<p>–5.为ClassId添加外键约束</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">alter</span> <span class="token keyword">table</span> teacher <span class="token comment" spellcheck="true">--从表的某一个字段，引用主表的某一个字段</span>
+
+<span class="token keyword">add</span> <span class="token keyword">constraint</span> FK_teacher_ClassId <span class="token keyword">foreign</span> <span class="token keyword">key</span><span class="token punctuation">(</span>classid<span class="token punctuation">)</span> <span class="token keyword">references</span> classes<span class="token punctuation">(</span>cid<span class="token punctuation">)</span></code></pre>
+<h6 id="级联操作"><a href="#级联操作" class="headerlink" title="级联操作"></a>级联操作</h6><pre class=" language-sql"><code class="language-sql"><span class="token keyword">if</span> <span class="token keyword">exists</span><span class="token punctuation">(</span><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> sysobjects <span class="token keyword">where</span> name<span class="token operator">=</span><span class="token string">'FK_teacher_ClassId'</span><span class="token punctuation">)</span>
+
+​    <span class="token keyword">alter</span> <span class="token keyword">table</span> teacher <span class="token keyword">drop</span> <span class="token keyword">constraint</span> FK_teacher_ClassId
+
+<span class="token keyword">alter</span> <span class="token keyword">table</span> teacher <span class="token comment" spellcheck="true">--从表的某一个字段，引用主表的某一个字段</span>
+
+<span class="token keyword">with</span> <span class="token keyword">nocheck</span> <span class="token comment" spellcheck="true">--不检查现有数据</span>
+
+<span class="token keyword">add</span> <span class="token keyword">constraint</span> FK_teacher_ClassId <span class="token keyword">foreign</span> <span class="token keyword">key</span><span class="token punctuation">(</span>classid<span class="token punctuation">)</span> <span class="token keyword">references</span> classes<span class="token punctuation">(</span>cid<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">--on delete Set null --删除主表数据，从表引用的数据设为null</span></code></pre>
+<p><strong>subject表</strong></p>
+<img src="http://116.62.203.42/img/3.jpg" alt="img" style="zoom:80%;"> 
+
+<p><strong>student表</strong></p>
+<img src="http://116.62.203.42/img/4.jpg" alt="img" style="zoom:80%;"> 
+
+<p><strong>result表</strong></p>
+<img src="http://116.62.203.42/img/5.jpg" alt="img" style="zoom:80%;"> 
+
+
+
+<p>1.设置外键</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">table</span> dept<span class="token punctuation">(</span>depno <span class="token keyword">int</span> <span class="token keyword">primary</span> <span class="token keyword">key</span><span class="token punctuation">)</span>
+
+<span class="token keyword">create</span> <span class="token keyword">table</span> emp<span class="token punctuation">(</span>empno <span class="token keyword">int</span> <span class="token keyword">primary</span> <span class="token keyword">key</span><span class="token punctuation">,</span>ename nvarchar<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span>deptno <span class="token keyword">int</span> <span class="token keyword">foreign</span> <span class="token keyword">key</span> <span class="token keyword">references</span> dept<span class="token punctuation">(</span>deptno<span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+<p>外键的数据类型和主键一致</p>
+<p>外键只能指向主键</p>
+<p>保持数据的完整性</p>
 <h5 id="视图"><a href="#视图" class="headerlink" title="视图"></a><strong>视图</strong></h5><h6 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h6><p>视图就是一张虚拟表，根据用户的查询创建的命令，使用视图就像使用表一样</p>
 <pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> vw_getinfo
 
@@ -1274,7 +1363,26 @@ emp表
 ​        <span class="token keyword">print</span> cast<span class="token punctuation">(</span><span class="token variable">@deletenum</span> <span class="token keyword">as</span> <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">'条记录被删除'</span>    
 
 go</code></pre>
-<h5 id="练习："><a href="#练习：" class="headerlink" title="练习："></a><strong>练习：</strong></h5><p>1)–查询图书的信息，要求图书的价格显示为：</p>
+<h5 id="练习"><a href="#练习" class="headerlink" title="练习"></a><strong>练习</strong></h5><p>1.已知学生表XS有学号、姓名、毕业院校、成绩(CJ)等字段，请写一个SQL语句显示毕业院校的学生人数多于1个的毕业院校及其人数，并按学生人数升序、毕业院校降序显示。结果显示如下：<br>毕业院校                   人数<br>——————————————————————<br>厦门理工学院                  4<br>福建工程学院                  7</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> 毕业院校 <span class="token punctuation">,</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span>  人数 <span class="token keyword">from</span> xs <span class="token keyword">group</span> <span class="token keyword">by</span> 毕业院校 <span class="token keyword">having</span> <span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span>  <span class="token operator">></span><span class="token number">1</span> <span class="token keyword">order</span> <span class="token keyword">by</span> 人数</code></pre>
+<p>2.已知学生表XS有学号、姓名、毕业院校、成绩(CJ)、出生(CS)等字段，请写一个SQL语句显示各分数段及其人数(注意：分数范围为0<del>99及NULL)。结果显示如下：<br>分数段        人数<br>————————————————<br>40</del>49            1<br>50<del>59            2<br>60</del>69            2<br>70<del>79            4<br>80</del>89            4<br>90~99            3<br>~                4</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> 分数段<span class="token punctuation">,</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> 人数 <span class="token keyword">from</span> <span class="token punctuation">(</span>
+<span class="token keyword">select</span> cj<span class="token punctuation">,</span>分数段<span class="token operator">=</span>
+<span class="token keyword">case</span> 
+<span class="token keyword">when</span> CJ<span class="token operator">>=</span><span class="token number">0</span> <span class="token operator">and</span> CJ<span class="token operator">&lt;=</span><span class="token number">9</span> <span class="token keyword">then</span> <span class="token string">'0~9'</span>
+<span class="token keyword">when</span> CJ<span class="token operator">>=</span><span class="token number">10</span> <span class="token operator">and</span> CJ<span class="token operator">&lt;=</span><span class="token number">19</span> <span class="token keyword">then</span> <span class="token string">'10~19'</span>
+<span class="token keyword">when</span> CJ<span class="token operator">>=</span><span class="token number">20</span> <span class="token operator">and</span> CJ<span class="token operator">&lt;=</span><span class="token number">29</span> <span class="token keyword">then</span> <span class="token string">'20~29'</span>
+<span class="token keyword">when</span> CJ<span class="token operator">>=</span><span class="token number">30</span> <span class="token operator">and</span> CJ<span class="token operator">&lt;=</span><span class="token number">39</span> <span class="token keyword">then</span> <span class="token string">'30~39'</span>
+<span class="token keyword">when</span> CJ<span class="token operator">>=</span><span class="token number">40</span> <span class="token operator">and</span> CJ<span class="token operator">&lt;=</span><span class="token number">49</span> <span class="token keyword">then</span> <span class="token string">'40~49'</span>
+<span class="token keyword">when</span> CJ<span class="token operator">>=</span><span class="token number">50</span> <span class="token operator">and</span> CJ<span class="token operator">&lt;=</span><span class="token number">59</span> <span class="token keyword">then</span> <span class="token string">'50~59'</span>
+<span class="token keyword">when</span> CJ<span class="token operator">>=</span><span class="token number">60</span> <span class="token operator">and</span> CJ<span class="token operator">&lt;=</span><span class="token number">69</span> <span class="token keyword">then</span> <span class="token string">'60~69'</span>
+<span class="token keyword">when</span> CJ<span class="token operator">>=</span><span class="token number">70</span> <span class="token operator">and</span> CJ<span class="token operator">&lt;=</span><span class="token number">79</span> <span class="token keyword">then</span> <span class="token string">'70~79'</span>
+<span class="token keyword">when</span> CJ<span class="token operator">>=</span><span class="token number">80</span> <span class="token operator">and</span> CJ<span class="token operator">&lt;=</span><span class="token number">89</span> <span class="token keyword">then</span> <span class="token string">'80~89'</span>
+<span class="token keyword">when</span> CJ<span class="token operator">>=</span><span class="token number">90</span> <span class="token operator">and</span> CJ<span class="token operator">&lt;=</span><span class="token number">99</span> <span class="token keyword">then</span> <span class="token string">'90~99'</span>
+<span class="token keyword">else</span> <span class="token string">'~'</span>
+<span class="token keyword">end</span>
+<span class="token keyword">from</span> xs<span class="token punctuation">)</span> tmp <span class="token keyword">group</span> <span class="token keyword">by</span> tmp<span class="token punctuation">.</span>分数段 <span class="token keyword">order</span> <span class="token keyword">by</span> <span class="token keyword">case</span> <span class="token keyword">when</span> 分数段<span class="token operator">=</span><span class="token string">'~'</span> <span class="token keyword">then</span> <span class="token number">1</span> <span class="token keyword">else</span> <span class="token number">0</span> <span class="token keyword">end</span></code></pre>
+<p>1)–查询图书的信息，要求图书的价格显示为：</p>
 <p>–价格为null :显示为价格未知</p>
 <p>–价格为10-20：显示为价格10-20</p>
 <p>–价格为20-50：显示为价格适中</p>
@@ -1818,7 +1926,7 @@ go</code></pre>
             <br>
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">15.1k</span>&nbsp;字
+                class="white-color">17.4k</span>&nbsp;字
             
             
             
