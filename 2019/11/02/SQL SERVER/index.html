@@ -435,14 +435,14 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        8.1k
+                        8.4k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        34 分
+                        36 分
                     </div>
                     
                 
@@ -903,6 +903,50 @@ go</code></pre>
 <pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> vw_stuinfo
 
 <span class="token keyword">update</span> vw_stuinfo <span class="token keyword">set</span> java<span class="token operator">=</span>java<span class="token number">-100</span> <span class="token keyword">where</span> 性别<span class="token operator">=</span><span class="token string">'男'</span></code></pre>
+<p> 例：</p>
+<p>对学生表Stu(XH,XM,CJ)创建加密视图学生加密(学号,姓名,成绩)。运行后结果显示：<br>学号         姓名      成绩<br>——————————————————————<br>1           AAA      56<br>2           BBB      80<br>3           CCC      70<br>Text<br>——————————————————————<br>NULL</p>
+<pre class=" language-sql"><code class="language-sql">go
+<span class="token keyword">create</span> <span class="token keyword">view</span> 学生加密 
+<span class="token keyword">with</span> encryption
+<span class="token keyword">as</span>
+<span class="token keyword">select</span> XH 学号<span class="token punctuation">,</span>XM 姓名<span class="token punctuation">,</span>CJ 成绩 <span class="token keyword">from</span> stu 
+go</code></pre>
+<p>对学生表Stu(XH,XM,CJ)以带检查选项创建视图学生及格(学号,姓名,成绩)，该视图只包含成绩及格学生的信息，然后查询该视图内容，最后将成绩70改为50。运行后结果显示：<br>学号         姓名      成绩<br>——————————————————————<br>2           BBB      80<br>3           CCC      70<br>E_No Lever State 错误信息<br>————————————————————————<br>550  16    1     试图进行的插入或更新已失败，原因是目标视图或者目标视图所跨越的某一视图指定了 WITH CHECK OPTION</p>
+<pre class=" language-sql"><code class="language-sql">go
+<span class="token keyword">create</span> <span class="token keyword">view</span> 学生及格 
+<span class="token keyword">as</span>
+<span class="token keyword">select</span> XH 学号<span class="token punctuation">,</span>XM 姓名<span class="token punctuation">,</span>CJ 成绩 <span class="token keyword">from</span> stu <span class="token keyword">where</span> CJ<span class="token operator">>=</span><span class="token number">60</span>
+<span class="token keyword">WITH</span> <span class="token keyword">CHECK</span> <span class="token keyword">option</span>
+go</code></pre>
+<h5 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h5><p>函数和存储过程类似。</p>
+<p>1.编写一函数Fact(@N)，用于求@N!，当@N=5时显示结果如下：</p>
+<p>——————————————<br>       120</p>
+<pre class=" language-sql"><code class="language-sql">go
+<span class="token keyword">create</span> <span class="token keyword">function</span> Fact<span class="token punctuation">(</span><span class="token variable">@num</span> <span class="token keyword">int</span><span class="token punctuation">)</span>
+<span class="token keyword">returns</span> <span class="token keyword">int</span>
+<span class="token keyword">as</span>
+<span class="token keyword">begin</span>
+<span class="token keyword">declare</span> <span class="token variable">@sum</span> <span class="token keyword">int</span> <span class="token operator">=</span><span class="token number">1</span>
+<span class="token keyword">declare</span> <span class="token variable">@i</span> <span class="token keyword">int</span> <span class="token operator">=</span><span class="token number">1</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token variable">@i</span><span class="token operator">&lt;=</span><span class="token variable">@num</span><span class="token punctuation">)</span>
+    <span class="token keyword">begin</span>
+        <span class="token keyword">set</span> <span class="token variable">@sum</span><span class="token operator">=</span><span class="token variable">@sum</span><span class="token operator">*</span><span class="token variable">@i</span>
+        <span class="token keyword">set</span> <span class="token variable">@i</span><span class="token operator">=</span><span class="token variable">@i</span><span class="token operator">+</span><span class="token number">1</span>
+    <span class="token keyword">end</span>
+    <span class="token keyword">return</span> <span class="token variable">@sum</span>
+<span class="token keyword">end</span>
+go</code></pre>
+<p>2.已知学生表XS有学号、姓名、毕业院校、成绩(CJ)等字段。创建一个函数XH2XM(@XH)，其功能是返回指定学号(@XH)学生的姓名。运行结果如下：<br>姓名<br>——————————<br>王聪慧<br>姓名<br>——————————<br>游连桦</p>
+<pre class=" language-sql"><code class="language-sql">go
+<span class="token keyword">create</span> <span class="token keyword">function</span> XH2XM<span class="token punctuation">(</span><span class="token variable">@XH</span> <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">returns</span> <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span>
+<span class="token keyword">as</span>
+<span class="token keyword">begin</span> 
+<span class="token keyword">declare</span> <span class="token variable">@name</span> <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span>
+    <span class="token keyword">set</span> <span class="token variable">@name</span><span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword">select</span> 姓名 <span class="token keyword">from</span> xs <span class="token keyword">where</span> 学号<span class="token operator">=</span><span class="token variable">@XH</span> <span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token variable">@name</span>
+<span class="token keyword">end</span>
+go</code></pre>
 <h5 id="局部变量"><a href="#局部变量" class="headerlink" title="局部变量"></a><strong>局部变量</strong></h5><h6 id="简介-2"><a href="#简介-2" class="headerlink" title="简介"></a>简介</h6><p>–语法</p>
 <p>–declare @变量的名字 变量的类型=[默认值]</p>
 <pre class=" language-sql"><code class="language-sql"><span class="token keyword">declare</span> <span class="token variable">@name</span> nvarchar<span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token operator">=</span><span class="token string">'zzy'</span>
@@ -1117,17 +1161,17 @@ go</code></pre>
 <h6 id="无参数"><a href="#无参数" class="headerlink" title="无参数"></a>无参数</h6><p>–.查询所有学生信息</p>
 <pre class=" language-sql"><code class="language-sql"><span class="token keyword">if</span> <span class="token keyword">exists</span><span class="token punctuation">(</span><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> sysobjects <span class="token keyword">where</span> name<span class="token operator">=</span><span class="token string">'usp_getAllInfo'</span><span class="token punctuation">)</span>
 
-​    <span class="token keyword">drop</span> <span class="token keyword">procedure</span> usp_getAllInfo
+    <span class="token keyword">drop</span> <span class="token keyword">procedure</span> usp_getAllInfo
 
-<span class="token operator">*</span><span class="token operator">*</span>go<span class="token operator">*</span><span class="token operator">*</span> 
+go
 
 <span class="token keyword">create</span> <span class="token keyword">procedure</span> usp_getAllInfo <span class="token comment" spellcheck="true">--简写proc</span>
 
 <span class="token keyword">as</span> 
 
-​    <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> emp
+    <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> emp
 
-<span class="token operator">*</span><span class="token operator">*</span>go<span class="token operator">*</span><span class="token operator">*</span>
+go
 
 <span class="token comment" spellcheck="true">--调用存储过程，获取学生信息</span>
 
@@ -1926,7 +1970,7 @@ go</code></pre>
             <br>
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">19.6k</span>&nbsp;字
+                class="white-color">20k</span>&nbsp;字
             
             
             
