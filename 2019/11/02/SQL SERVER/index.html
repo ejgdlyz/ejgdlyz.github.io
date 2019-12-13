@@ -435,14 +435,14 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        8.4k
+                        9.9k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        36 分
+                        43 分
                     </div>
                     
                 
@@ -1328,30 +1328,26 @@ go
 <p>–as</p>
 <p>–任意的逻辑代码 –存储过程</p>
 <p>–go</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">Create</span> <span class="token keyword">Trigger</span> 触发器名 <span class="token keyword">On</span> {表<span class="token operator">|</span>视图}
+<span class="token punctuation">[</span><span class="token keyword">With</span> Encryption<span class="token punctuation">]</span>
+{{<span class="token keyword">For</span><span class="token operator">|</span><span class="token keyword">After</span><span class="token operator">|</span>Instead <span class="token keyword">of</span>} {<span class="token punctuation">[</span><span class="token keyword">Insert</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">,</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token keyword">Delete</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">,</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token keyword">Update</span><span class="token punctuation">]</span>}<span class="token punctuation">[</span><span class="token operator">Not</span> <span class="token keyword">For</span> <span class="token keyword">Replication</span><span class="token punctuation">]</span>
+<span class="token keyword">as</span>
+SQL语句<span class="token punctuation">[</span><span class="token punctuation">,</span>…n<span class="token punctuation">]</span></code></pre>
+<p>For：如果仅指定For关键字，而没指定After或Instead of，则默认After。</p>
+<p>实例：</p>
 <pre class=" language-sql"><code class="language-sql"><span class="token keyword">if</span> <span class="token keyword">exists</span><span class="token punctuation">(</span><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> sysobjects <span class="token keyword">where</span> name <span class="token operator">=</span><span class="token string">'tr_emp_insert'</span><span class="token punctuation">)</span>
 
 ​    <span class="token keyword">drop</span> <span class="token keyword">trigger</span> tr_emp_insert
 
 go 
-
 <span class="token keyword">create</span> <span class="token keyword">trigger</span> tr_emp_insert
-
 <span class="token keyword">on</span> emp <span class="token keyword">for</span> <span class="token keyword">insert</span> <span class="token comment" spellcheck="true">--为emp表创建触发器，在你对grade表进行插入操作后触发</span>
-
 <span class="token keyword">as</span>
-
 <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> emp
-
 go
 
 <span class="token keyword">insert</span> <span class="token keyword">into</span> emp<span class="token punctuation">(</span>ename<span class="token punctuation">)</span> <span class="token keyword">values</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span>
-
-
-
-\<span class="token operator">-</span><span class="token operator">-</span>
-
 <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> inserted <span class="token comment" spellcheck="true">--操作之后，新表(操作过后的表)</span>
-
 <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> deleted <span class="token comment" spellcheck="true">--操作之前，旧表（操作前的表）</span></code></pre>
 <p>–两个临时表</p>
 <pre class=" language-sql"><code class="language-sql"><span class="token keyword">if</span> <span class="token keyword">exists</span><span class="token punctuation">(</span><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> sysobjects <span class="token keyword">where</span> name <span class="token operator">=</span><span class="token string">'tr_emp_insert'</span><span class="token punctuation">)</span>
@@ -1376,10 +1372,10 @@ go
 
 go
 
-<span class="token keyword">insert</span> <span class="token keyword">into</span> emp<span class="token punctuation">(</span>ename<span class="token punctuation">,</span>sex<span class="token punctuation">)</span> <span class="token keyword">values</span> <span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">,</span><span class="token string">'男'</span><span class="token punctuation">)</span>
-
-emp表
-
+<span class="token keyword">insert</span> <span class="token keyword">into</span> emp<span class="token punctuation">(</span>ename<span class="token punctuation">,</span>sex<span class="token punctuation">)</span> <span class="token keyword">values</span> <span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">,</span><span class="token string">'男'</span><span class="token punctuation">)</span></code></pre>
+<p>记录增删改操作触发器中使用了两个逻辑(概念)表：<strong>Inserted</strong>表和<strong>Deleted</strong>表，它们的结构与定义触发器的表相同。Deleted保存要被删除的记录值或修改前的记录值(旧值)，Inserted保存要插入的记录值或修改后的记录值(新值)。也就是，在Insert触发器中，Inserted表保存要插入的记录，而Deleted表无记录；在Update触发器中，Inserted表保存修改后的记录，Deleted表保存修改前的记录；在Delete触发器中，Deleted表保存删除前的记录，而Inserted表无记录。</p>
+<p>例：为emp表创建触发器，当有记录插入，删除或更新时，输出多少条被记录被插入，多少条被记录被删除，多少条被记录被更新</p>
+<pre class=" language-sql"><code class="language-sql">go
 <span class="token keyword">create</span> <span class="token keyword">trigger</span> StuIDU <span class="token keyword">on</span> emp
 
 <span class="token keyword">for</span> <span class="token keyword">insert</span><span class="token punctuation">,</span><span class="token keyword">delete</span> <span class="token punctuation">,</span><span class="token keyword">update</span>
@@ -1407,6 +1403,164 @@ emp表
 ​        <span class="token keyword">print</span> cast<span class="token punctuation">(</span><span class="token variable">@deletenum</span> <span class="token keyword">as</span> <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">'条记录被删除'</span>    
 
 go</code></pre>
+<p> 1,已知学生表Stu含XH、XM等字段，分别表示学号和姓名等。现要求创建一个触发器StuIDU，记录增删改操作时触发，触发后显示当前执行的是什么操作和所影响的记录数。</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">If</span> <span class="token keyword">Exists</span><span class="token punctuation">(</span><span class="token keyword">Select</span> <span class="token operator">*</span> <span class="token keyword">From</span> Sys<span class="token punctuation">.</span>Objects <span class="token keyword">Where</span> <span class="token keyword">Type</span><span class="token operator">=</span><span class="token string">'U'</span> <span class="token operator">and</span> Name<span class="token operator">=</span><span class="token string">'Stu'</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">--判断是否有Stu表</span>
+<span class="token keyword">Drop</span> <span class="token keyword">Table</span> Stu
+<span class="token keyword">Create</span> <span class="token keyword">Table</span> Stu<span class="token punctuation">(</span>XH <span class="token keyword">int</span> <span class="token keyword">primary</span> <span class="token keyword">key</span><span class="token punctuation">,</span>XM <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+GO
+<span class="token keyword">Create</span> <span class="token keyword">Trigger</span> StuIDU <span class="token keyword">On</span> Stu <span class="token keyword">After</span> <span class="token keyword">Insert</span><span class="token punctuation">,</span><span class="token keyword">Delete</span><span class="token punctuation">,</span><span class="token keyword">Update</span> <span class="token keyword">As</span>
+<span class="token keyword">Begin</span>
+ <span class="token keyword">Declare</span> <span class="token variable">@In</span> <span class="token keyword">int</span><span class="token punctuation">,</span><span class="token variable">@Dn</span> <span class="token keyword">int</span>
+ <span class="token keyword">Select</span> <span class="token variable">@In</span><span class="token operator">=</span><span class="token function">Count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword">From</span> Inserted
+ <span class="token keyword">Select</span> <span class="token variable">@Dn</span><span class="token operator">=</span><span class="token function">Count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword">From</span> Deleted
+ <span class="token keyword">If</span> <span class="token variable">@In</span><span class="token operator">></span><span class="token number">0</span> <span class="token operator">and</span> <span class="token variable">@Dn</span><span class="token operator">></span><span class="token number">0</span> <span class="token comment" spellcheck="true">--</span>
+  <span class="token keyword">Print</span> str<span class="token punctuation">(</span><span class="token variable">@In</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">'条记录被更新'</span>
+ <span class="token keyword">Else</span>
+ <span class="token keyword">If</span> <span class="token variable">@In</span><span class="token operator">></span><span class="token number">0</span>
+  <span class="token keyword">Print</span> str<span class="token punctuation">(</span><span class="token variable">@In</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">'条记录被插入'</span>
+ <span class="token keyword">Else</span>
+  <span class="token keyword">Print</span> str<span class="token punctuation">(</span><span class="token variable">@Dn</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">'条记录被删除'</span>
+<span class="token keyword">End</span>
+GO
+<span class="token keyword">Insert</span> <span class="token keyword">Into</span> Stu<span class="token punctuation">(</span>XH<span class="token punctuation">,</span>XM<span class="token punctuation">)</span> <span class="token keyword">Values</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token string">'AAA'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">Insert</span> <span class="token keyword">Into</span> Stu<span class="token punctuation">(</span>XH<span class="token punctuation">,</span>XM<span class="token punctuation">)</span> <span class="token keyword">Select</span> <span class="token number">2</span><span class="token punctuation">,</span><span class="token string">'BBB'</span> <span class="token keyword">Union</span> <span class="token keyword">Select</span> <span class="token number">3</span><span class="token punctuation">,</span><span class="token string">'CCC'</span>
+<span class="token keyword">Update</span> Stu <span class="token keyword">Set</span> XH<span class="token operator">=</span>XH<span class="token operator">+</span><span class="token number">1</span> <span class="token keyword">where</span> XH<span class="token operator">></span><span class="token number">1</span>
+<span class="token keyword">Delete</span> Stu
+<span class="token comment" spellcheck="true">--运行结果显示：</span>
+<span class="token comment" spellcheck="true">--1条记录被插入</span>
+<span class="token comment" spellcheck="true">--2条记录被插入</span>
+<span class="token comment" spellcheck="true">--2条记录被更新</span>
+<span class="token comment" spellcheck="true">--3条记录被删除</span></code></pre>
+<p>2,已知学生图书借阅管理系统有三张表,图书表TuShu含书号、书名、册数等字段，读者表DuZhe含XH、XM等字段，分别表示学号和姓名，借阅表JieYue含SH、XH、JYRQ、GHRQ等字段，分别表示书号、学号、借阅日期、归还日期。现要求创建相关触发器，实现每借阅一本图书(插入一条借阅记录)，图书的库存册数自动减1，每归还一本图书(删除一条借阅记录)，图书的库存册数自动加1，更换借阅图书，库存册数作相应调整。</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">If</span> <span class="token keyword">Exists</span><span class="token punctuation">(</span><span class="token keyword">Select</span> <span class="token operator">*</span> <span class="token keyword">From</span> Sys<span class="token punctuation">.</span>Objects <span class="token keyword">Where</span> <span class="token keyword">Type</span><span class="token operator">=</span><span class="token string">'U'</span> <span class="token operator">and</span> Name<span class="token operator">=</span><span class="token string">'TuShu'</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">--判断是否有TuShu表</span>
+<span class="token keyword">Drop</span> <span class="token keyword">Table</span> JieYue<span class="token punctuation">,</span>TuShu<span class="token punctuation">,</span>DuZhe
+<span class="token keyword">Create</span> <span class="token keyword">Table</span> TuShu<span class="token punctuation">(</span>书号 <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">14</span><span class="token punctuation">)</span><span class="token punctuation">,</span>书名 <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">,</span>册数 <span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">Insert</span> <span class="token keyword">Into</span> TuShu <span class="token keyword">Values</span><span class="token punctuation">(</span><span class="token string">'9787302161801'</span><span class="token punctuation">,</span><span class="token string">'Windows程序设计'</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">Insert</span> <span class="token keyword">Into</span> TuShu <span class="token keyword">Values</span><span class="token punctuation">(</span><span class="token string">'9787302161802'</span><span class="token punctuation">,</span><span class="token string">'C++程序设计'</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">Insert</span> <span class="token keyword">Into</span> TuShu <span class="token keyword">Values</span><span class="token punctuation">(</span><span class="token string">'9787302161803'</span><span class="token punctuation">,</span><span class="token string">'Win32汇编语言'</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">Create</span> <span class="token keyword">Table</span> DuZhe<span class="token punctuation">(</span>XH <span class="token keyword">Varchar</span><span class="token punctuation">(</span><span class="token number">14</span><span class="token punctuation">)</span><span class="token punctuation">,</span>XM <span class="token keyword">Varchar</span><span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">Insert</span> <span class="token keyword">Into</span> DuZhe<span class="token punctuation">(</span>XH<span class="token punctuation">,</span>XM<span class="token punctuation">)</span> <span class="token keyword">Values</span><span class="token punctuation">(</span><span class="token string">'20120881101'</span><span class="token punctuation">,</span><span class="token string">'黄惠珍'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">Insert</span> <span class="token keyword">Into</span> DuZhe<span class="token punctuation">(</span>XH<span class="token punctuation">,</span>XM<span class="token punctuation">)</span> <span class="token keyword">Values</span><span class="token punctuation">(</span><span class="token string">'20120881102'</span><span class="token punctuation">,</span><span class="token string">'肖光'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">Create</span> <span class="token keyword">Table</span> JieYue<span class="token punctuation">(</span>SH <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">14</span><span class="token punctuation">)</span><span class="token punctuation">,</span>XH <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span><span class="token punctuation">,</span>JYRQ <span class="token keyword">DateTime</span><span class="token punctuation">,</span>GHRQ <span class="token keyword">DateTime</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">If</span> <span class="token keyword">Exists</span><span class="token punctuation">(</span><span class="token keyword">Select</span> <span class="token operator">*</span> <span class="token keyword">From</span> Sys<span class="token punctuation">.</span>Objects <span class="token keyword">Where</span> <span class="token keyword">Type</span><span class="token operator">=</span><span class="token string">'TR'</span> <span class="token operator">and</span> Name<span class="token operator">=</span><span class="token string">'Jie'</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">--判断是否有Jie触发器</span>
+<span class="token keyword">Drop</span> <span class="token keyword">Trigger</span> Jie<span class="token punctuation">,</span>Huan<span class="token punctuation">,</span>GengHuan
+GO
+<span class="token comment" spellcheck="true">--创建借阅触发器</span>
+<span class="token keyword">Create</span> <span class="token keyword">Trigger</span> Jie <span class="token keyword">On</span> JieYue <span class="token keyword">After</span> <span class="token keyword">Insert</span> <span class="token keyword">As</span>
+<span class="token keyword">Update</span> TuShu <span class="token keyword">set</span> 册数<span class="token operator">=</span>册数<span class="token operator">-</span><span class="token number">1</span> <span class="token keyword">Where</span> 书号 <span class="token operator">IN</span> <span class="token punctuation">(</span><span class="token keyword">Select</span> SH <span class="token keyword">From</span> Inserted<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">--被借图书册数减1</span>
+GO
+<span class="token comment" spellcheck="true">--创建归还触发器</span>
+<span class="token keyword">Create</span> <span class="token keyword">Trigger</span> Huan <span class="token keyword">On</span> JieYue <span class="token keyword">After</span> <span class="token keyword">Delete</span> <span class="token keyword">As</span>
+<span class="token keyword">Update</span> TuShu <span class="token keyword">Set</span> 册数<span class="token operator">=</span>册数<span class="token operator">+</span><span class="token number">1</span> <span class="token keyword">Where</span> 书号 <span class="token operator">IN</span> <span class="token punctuation">(</span><span class="token keyword">Select</span> SH <span class="token keyword">From</span> Deleted<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">--归还图书册数加1</span>
+GO
+<span class="token comment" spellcheck="true">--创建更换触发器</span>
+<span class="token keyword">Create</span> <span class="token keyword">Trigger</span> GengHuan <span class="token keyword">On</span> JieYue <span class="token keyword">After</span> <span class="token keyword">Update</span> <span class="token keyword">As</span>
+<span class="token keyword">Update</span> TuShu <span class="token keyword">Set</span> 册数<span class="token operator">=</span>册数<span class="token operator">-</span><span class="token number">1</span> <span class="token keyword">Where</span> 书号 <span class="token operator">IN</span> <span class="token punctuation">(</span><span class="token keyword">Select</span> SH <span class="token keyword">From</span> Inserted<span class="token punctuation">)</span>
+<span class="token keyword">Update</span> TuShu <span class="token keyword">Set</span> 册数<span class="token operator">=</span>册数<span class="token operator">+</span><span class="token number">1</span> <span class="token keyword">Where</span> 书号 <span class="token operator">IN</span> <span class="token punctuation">(</span><span class="token keyword">Select</span> SH <span class="token keyword">From</span> Deleted<span class="token punctuation">)</span>
+GO
+<span class="token keyword">Insert</span> <span class="token keyword">Into</span> JieYue <span class="token keyword">Values</span><span class="token punctuation">(</span><span class="token string">'9787302161802'</span><span class="token punctuation">,</span><span class="token string">'20120881101'</span><span class="token punctuation">,</span>GetDate<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>GetDate<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">Insert</span> <span class="token keyword">Into</span> JieYue <span class="token keyword">Values</span><span class="token punctuation">(</span><span class="token string">'9787302161803'</span><span class="token punctuation">,</span><span class="token string">'20120881101'</span><span class="token punctuation">,</span>GetDate<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>GetDate<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">Select</span> <span class="token operator">*</span> <span class="token keyword">From</span> JieYue
+<span class="token keyword">Select</span> <span class="token operator">*</span> <span class="token keyword">From</span> TuShu
+GO
+<span class="token keyword">Update</span> JieYue <span class="token keyword">Set</span> SH<span class="token operator">=</span><span class="token string">'9787302161801'</span> <span class="token keyword">Where</span> SH<span class="token operator">=</span><span class="token string">'9787302161803'</span>
+<span class="token keyword">Select</span> <span class="token operator">*</span> <span class="token keyword">From</span> JieYue
+<span class="token keyword">Select</span> <span class="token operator">*</span> <span class="token keyword">From</span> TuShu
+GO
+<span class="token keyword">Delete</span> JieYue
+<span class="token keyword">Select</span> <span class="token operator">*</span> <span class="token keyword">From</span> JieYuee
+<span class="token keyword">Select</span> <span class="token operator">*</span> <span class="token keyword">From</span> TuShu
+<span class="token comment" spellcheck="true">/*
+运行结果显示：
+SH             XH          JYRQ                    GHRQ
+-------------- ----------- ----------------------- -----------------------
+9787302161802  20120881101 2016-11-21 18:43:58.903 2016-12-11 18:43:58.903
+9787302161803  20120881101 2016-11-21 18:43:59.107 2016-12-11 18:43:59.107
+
+书号           书名               册数
+-------------- ---------------    -----------
+9787302161801  Windows程序设计    2
+9787302161802  C++程序设计        2
+9787302161803  Win32汇编语言     3
+
+SH             XH          JYRQ                    GHRQ
+-------------- ----------- ----------------------- -----------------------
+9787302161802  20120881101 2016-11-21 18:43:58.903 2016-12-11 18:43:58.903
+9787302161801  20120881101 2016-11-21 18:43:59.107 2016-12-11 18:43:59.107
+
+书号           书名                 册数
+-------------- ---------------    -----------
+9787302161801  Windows程序设计    1
+9787302161802  C++程序设计       2
+9787302161803  Win32汇编语言     4
+
+SH             XH          JYRQ                    GHRQ
+-------------- ----------- ----------------------- -----------------------
+
+书号           书名                册数
+-------------- ---------------    -----------
+9787302161801  Windows程序设计    2
+9787302161802  C++程序设计         3
+9787302161803  Win32汇编语言      4
+*/</span></code></pre>
+<p>3.创建简易酒店管理系统相关触发器，要求每入住一个旅客(插入一个旅客记录)，客房入住人数自动加1，每退房一个旅客(删除一个旅客记录)，客房入住人数自动减1，旅客调整房间，客房入住人数作相应调整。</p>
+<pre class=" language-sql"><code class="language-sql">go
+<span class="token keyword">create</span> <span class="token keyword">trigger</span> tr_house <span class="token keyword">on</span> 旅客
+<span class="token keyword">for</span> <span class="token keyword">delete</span><span class="token punctuation">,</span><span class="token keyword">insert</span><span class="token punctuation">,</span><span class="token keyword">update</span>
+<span class="token keyword">as</span>
+<span class="token keyword">declare</span> <span class="token variable">@innum</span> <span class="token keyword">int</span>
+<span class="token keyword">declare</span> <span class="token variable">@denum</span> <span class="token keyword">int</span>
+<span class="token keyword">select</span> <span class="token variable">@innum</span><span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword">select</span> <span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword">from</span> inserted<span class="token punctuation">)</span>
+<span class="token keyword">select</span> <span class="token variable">@denum</span><span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword">select</span> <span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword">from</span> deleted<span class="token punctuation">)</span>
+<span class="token keyword">if</span> <span class="token variable">@innum</span> <span class="token operator">></span><span class="token number">0</span> <span class="token operator">and</span> <span class="token variable">@denum</span><span class="token operator">&lt;=</span><span class="token number">0</span>
+    <span class="token keyword">update</span> 客房 <span class="token keyword">set</span> 入住人数<span class="token operator">=</span>入住人数<span class="token operator">+</span><span class="token number">1</span> <span class="token keyword">where</span> 房号 <span class="token operator">in</span> <span class="token punctuation">(</span><span class="token keyword">select</span> 房号 <span class="token keyword">from</span> inserted<span class="token punctuation">)</span>
+<span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token variable">@innum</span> <span class="token operator">></span><span class="token number">0</span> <span class="token operator">and</span> <span class="token variable">@denum</span> <span class="token operator">></span> <span class="token number">0</span>
+<span class="token keyword">begin</span>
+    <span class="token keyword">update</span> 客房 <span class="token keyword">set</span> 入住人数<span class="token operator">=</span>入住人数<span class="token operator">+</span><span class="token number">1</span> <span class="token keyword">where</span> 房号 <span class="token operator">in</span> <span class="token punctuation">(</span><span class="token keyword">select</span> 房号 <span class="token keyword">from</span> inserted<span class="token punctuation">)</span>
+    <span class="token keyword">update</span> 客房 <span class="token keyword">set</span> 入住人数<span class="token operator">=</span>入住人数<span class="token operator">-</span><span class="token number">1</span> <span class="token keyword">where</span> 房号 <span class="token operator">in</span> <span class="token punctuation">(</span><span class="token keyword">select</span> 房号 <span class="token keyword">from</span> deleted<span class="token punctuation">)</span>
+<span class="token keyword">end</span>
+<span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token variable">@innum</span> <span class="token operator">&lt;=</span><span class="token number">0</span> <span class="token operator">and</span> <span class="token variable">@denum</span><span class="token operator">></span><span class="token number">0</span>
+<span class="token keyword">begin</span>
+    <span class="token keyword">update</span> 客房 <span class="token keyword">set</span> 入住人数<span class="token operator">=</span>入住人数<span class="token operator">-</span><span class="token number">1</span> <span class="token keyword">where</span> 房号 <span class="token operator">in</span> <span class="token punctuation">(</span><span class="token keyword">select</span> 房号 <span class="token keyword">from</span> deleted<span class="token punctuation">)</span>
+<span class="token keyword">end</span>
+go
+<span class="token keyword">Select</span> <span class="token operator">*</span> <span class="token keyword">from</span> 客房
+<span class="token keyword">Insert</span> <span class="token keyword">Into</span> 旅客<span class="token punctuation">(</span>身份证号<span class="token punctuation">,</span>姓名<span class="token punctuation">,</span>房号<span class="token punctuation">)</span> <span class="token keyword">Values</span><span class="token punctuation">(</span><span class="token string">'123…'</span><span class="token punctuation">,</span><span class="token string">'AAA'</span><span class="token punctuation">,</span><span class="token number">101</span><span class="token punctuation">)</span>
+<span class="token keyword">Select</span> <span class="token operator">*</span> <span class="token keyword">from</span> 客房
+<span class="token keyword">Update</span> 旅客 <span class="token keyword">Set</span> 房号<span class="token operator">=</span><span class="token number">201</span> <span class="token keyword">Where</span> 姓名<span class="token operator">=</span><span class="token string">'AAA'</span>
+<span class="token keyword">Select</span> <span class="token operator">*</span> <span class="token keyword">from</span>  客房
+<span class="token keyword">Delete</span> 旅客 <span class="token keyword">Where</span> 姓名<span class="token operator">=</span><span class="token string">'AAA'</span>
+<span class="token keyword">Select</span> <span class="token operator">*</span> <span class="token keyword">from</span>  客房
+
+<span class="token comment" spellcheck="true">/*
+运行后结果显示：
+房号        入住人数
+
+---------- ----------
+
+101  0
+201  0
+房号        入住人数
+
+---------- ----------
+
+101  1
+201  0
+房号        入住人数
+
+---------- ----------
+
+101  0
+201  1
+房号        入住人数
+
+---------- ----------
+
+101  0
+201  0
+*/</span></code></pre>
 <h5 id="练习"><a href="#练习" class="headerlink" title="练习"></a><strong>练习</strong></h5><p>1.已知学生表XS有学号、姓名、毕业院校、成绩(CJ)等字段，请写一个SQL语句显示毕业院校的学生人数多于1个的毕业院校及其人数，并按学生人数升序、毕业院校降序显示。结果显示如下：<br>毕业院校                   人数<br>——————————————————————<br>厦门理工学院                  4<br>福建工程学院                  7</p>
 <pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> 毕业院校 <span class="token punctuation">,</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span>  人数 <span class="token keyword">from</span> xs <span class="token keyword">group</span> <span class="token keyword">by</span> 毕业院校 <span class="token keyword">having</span> <span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span>  <span class="token operator">></span><span class="token number">1</span> <span class="token keyword">order</span> <span class="token keyword">by</span> 人数</code></pre>
 <p>2.已知学生表XS有学号、姓名、毕业院校、成绩(CJ)、出生(CS)等字段，请写一个SQL语句显示各分数段及其人数(注意：分数范围为0<del>99及NULL)。结果显示如下：<br>分数段        人数<br>————————————————<br>40</del>49            1<br>50<del>59            2<br>60</del>69            2<br>70<del>79            4<br>80</del>89            4<br>90~99            3<br>~                4</p>
@@ -1765,19 +1919,19 @@ go</code></pre>
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/11/03/linux/">
+                <a href="/2019/11/03/shell/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Linux基础教程">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="Shell 编程">
                         
-                        <span class="card-title">Linux基础教程</span>
+                        <span class="card-title">Shell 编程</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Linux实用命令，实用操作
+                            Shell编程入门
                         
                     </div>
                     <div class="publish-info">
@@ -1788,8 +1942,8 @@ go</code></pre>
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux-Redhat-6/" class="post-category" target="_blank">
-                                    Linux Redhat 6
+                            <a href="/categories/Shell-大数据/" class="post-category" target="_blank">
+                                    Shell 大数据
                                 </a>
                             
                             
@@ -1799,8 +1953,12 @@ go</code></pre>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux-Redhat-6/" target="_blank">
-                        <span class="chip bg-color">Linux Redhat 6</span>
+                    <a href="/tags/Shell/" target="_blank">
+                        <span class="chip bg-color">Shell</span>
+                    </a>
+                    
+                    <a href="/tags/大数据/" target="_blank">
+                        <span class="chip bg-color">大数据</span>
                     </a>
                     
                 </div>
@@ -1970,7 +2128,7 @@ go</code></pre>
             <br>
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">23.8k</span>&nbsp;字
+                class="white-color">34.2k</span>&nbsp;字
             
             
             
