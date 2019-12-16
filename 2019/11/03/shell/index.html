@@ -5,14 +5,14 @@
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
     <meta name="keywords" content="Shell 编程, White Spider">
-    <meta name="description" content="Shell 编程1.Shell简介
+    <meta name="description" content="1.Shell简介
 shell的用途
 Linux运维工程师通过shell程序对服务器进行集群管理。
 JavaEE和Python程序员编写Shell脚本对服务器进行维护，比如定时备份数据库
 等等…
 
 Shell是什么？
-She">
+Shell是一个命令行">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -467,7 +467,7 @@ She">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Shell-编程"><a href="#Shell-编程" class="headerlink" title="Shell 编程"></a>Shell 编程</h2><h5 id="1-Shell简介"><a href="#1-Shell简介" class="headerlink" title="1.Shell简介"></a>1.Shell简介</h5><ul>
+                <h5 id="1-Shell简介"><a href="#1-Shell简介" class="headerlink" title="1.Shell简介"></a>1.Shell简介</h5><ul>
 <li><p>shell的用途</p>
 <p>Linux运维工程师通过shell程序对服务器进行集群管理。</p>
 <p>JavaEE和Python程序员编写Shell脚本对服务器进行维护，比如定时备份数据库</p>
@@ -564,16 +564,8 @@ TOMCAT_HOME<span class="token operator">=</span>/opt/tomcat/
 <span class="token punctuation">[</span>root@localhost shelltest<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># echo $TOMCAT_HOME</span>
 /opt/tomcat/</code></pre>
 <p>在另外一个shell程序中使用TOMCAT_HOME</p>
-<p>多行注释      </p>
-<p>:&lt;&lt;! </p>
-<p>!</p>
-<pre class=" language-shell"><code class="language-shell">:<<!
-A=100
-echo "自定义变量与销毁"
-echo "A= $A"
-unset A 
-echo "A="
-!
+<p>多行注释      :&lt;&lt;! 注释内容!</p>
+<pre class=" language-shell"><code class="language-shell">#!/bin/bash
 #使用自定义的环境变量
 echo $TOMCAT_HOME
 [root@localhost shelltest]# ./hello.sh 
