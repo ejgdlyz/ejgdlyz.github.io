@@ -1,0 +1,1266 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="mitmproxy使用, White Spider">
+    <meta name="description" content="mitmproxy的使用mitmproxy是一个支持HTTP和HTTPS的抓包程序，有类似Fiddler、Charles的功能，只不过它是一个控制台的形式操作。
+mitmproxy还有两个关联组件。一个是mitmdump，它是mitmpro">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>mitmproxy使用 | White Spider</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">White Spider</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right nav-menu">
+    
+	<li class="hide-on-med-and-down nav-item" >
+		
+					  <a href="/" class="waves-effect waves-light">
+						
+						<i class="fa fa-home"></i>
+						
+						<span>首页</span>
+					</a>
+          
+        </li>
+    
+	<li class="hide-on-med-and-down nav-item" >
+		
+					  <a href="/tags" class="waves-effect waves-light">
+						
+						<i class="fa fa-tags"></i>
+						
+						<span>标签</span>
+					</a>
+          
+        </li>
+    
+	<li class="hide-on-med-and-down nav-item" >
+		
+					  <a href="/categories" class="waves-effect waves-light">
+						
+						<i class="fa fa-bookmark"></i>
+						
+						<span>分类</span>
+					</a>
+          
+        </li>
+    
+	<li class="hide-on-med-and-down nav-item" >
+		
+					  <a href="/archives" class="waves-effect waves-light">
+						
+						<i class="fa fa-archive"></i>
+						
+						<span>归档</span>
+					</a>
+          
+        </li>
+    
+	<li class="hide-on-med-and-down nav-item" >
+		
+					  <a href="/about" class="waves-effect waves-light">
+						
+						<i class="fa fa-user-circle-o"></i>
+						
+						<span>关于</span>
+					</a>
+          
+        </li>
+    
+	<li class="hide-on-med-and-down nav-item" >
+		
+					  <a href="/friends" class="waves-effect waves-light">
+						
+						<i class="fa fa-address-book"></i>
+						
+						<span>友情链接</span>
+					</a>
+          
+        </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">White Spider</div>
+        <div class="logo-desc">
+            
+            积跬步,至千里
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa fa-fw fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa fa-fw fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa fa-fw fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa fa-fw fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa fa-fw fa-user-circle-o"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa fa-fw fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/ejgdlyz/ejgdlyz.github.io" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/ejgdlyz/ejgdlyz.github.io" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        mitmproxy使用
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/mitmproxy-python3/" target="_blank">
+                                <span class="chip bg-color">mitmproxy python3</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/爬虫-app数据爬取/" class="post-category" target="_blank">
+                                爬虫,app数据爬取
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-01-23
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                        4k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                        17 分
+                    </div>
+                    
+                
+				
+				
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h4 id="mitmproxy的使用"><a href="#mitmproxy的使用" class="headerlink" title="mitmproxy的使用"></a>mitmproxy的使用</h4><p>mitmproxy是一个支持HTTP和HTTPS的抓包程序，有类似Fiddler、Charles的功能，只不过它是一个控制台的形式操作。</p>
+<p>mitmproxy还有两个关联组件。一个是mitmdump，它是mitmproxy的命令行接口，利用它我们可以对接Python脚本，用Python实现监听后的处理。另一个是mitmweb，它是一个Web程序，打开它是一个监视网页，我们可以很清楚地观察到mitmproxy捕获的请求。windows不支持mitmproxy命令，可以直接运行mitmweb或者mitmdump。</p>
+<h5 id="1-所需环境"><a href="#1-所需环境" class="headerlink" title="1.所需环境"></a>1.所需环境</h5><p>Windows安装mitmproxy，并且手机和pc处于同一个局域网（WiFi）下，同时要配置好CA证书。</p>
+<p>安装python所需库mitmproxy。</p>
+<h5 id="2-mitmproxy的功能"><a href="#2-mitmproxy的功能" class="headerlink" title="2.mitmproxy的功能"></a>2.mitmproxy的功能</h5><ul>
+<li>拦截HTTP和HTTPS请求</li>
+<li>保存HTTP会话并进行分析</li>
+<li>模拟客户端发起请求，模拟服务器返回响应</li>
+<li>利用反向代理将流量转发给指定服务器</li>
+<li>利用python对HTTP请求和响应进行实时处理</li>
+</ul>
+<h5 id="3-抓包原理"><a href="#3-抓包原理" class="headerlink" title="3.抓包原理"></a>3.抓包原理</h5><p>mitm运行在pc的8080端口，在此端口开启一个http/https代理服务。</p>
+<p>手机和pc在同一局域网内，手机设置代理为mitmproxy的代理，这样手机在访问互联网的时候流量数据就会流经mitmproxy,mitmproxy再去转发这些数据包到真实服务器。</p>
+<p>服务器返回数据包由mitmproxy转发到手机，这样mitmproxy就起到了一个中间人的作用，抓取到所有Request和Response,然后对接python,对抓取到的内容进行解析。</p>
+<h5 id="4-mitmweb的使用"><a href="#4-mitmweb的使用" class="headerlink" title="4.mitmweb的使用"></a>4.mitmweb的使用</h5><p>windows命令行运行：</p>
+<pre class=" language-powershell"><code class="language-powershell">C:\Users\Administrator>mitmweb
+Web   server listening at http:<span class="token operator">/</span><span class="token operator">/</span>127<span class="token punctuation">.</span>0<span class="token punctuation">.</span>0<span class="token punctuation">.</span>1:8081<span class="token operator">/</span>
+Proxy server listening at http:<span class="token operator">/</span>/<span class="token operator">*</span>:8080</code></pre>
+<p>手机与pc处于统一局域网,Windows最好关闭防火墙，命令成功运行后自动打开浏览器进入web交互界面。或者手动访问<a href="http://127.0.0.1:8081/" target="_blank" rel="noopener">http://127.0.0.1:8081/</a></p>
+<p>设置好mitmproxy，手机浏览器访问网页或者打开app，mitmweb就会出现手机上所有请求。</p>
+<h5 id="5-mitmdump的使用"><a href="#5-mitmdump的使用" class="headerlink" title="5.mitmdump的使用"></a>5.mitmdump的使用</h5><p>mitmdump是mitmproxy的命令行接口，同时还可以对接python对请求进行处理。有了它我们可以不用手动截获和分析HTTP请求和响应，只需写好请求和响应的处理逻辑即可。它还可以实现数据的解析，存储等工作，这些过程都可以通过python实现。</p>
+<ul>
+<li><p>使用命令启动mitmproxy,并把截获的数据保存到文件。</p>
+<pre class=" language-powershell"><code class="language-powershell">H:\PycharmProjects\>mitmdump <span class="token operator">-</span>w outfile
+Proxy server listening at http:<span class="token operator">/</span>/<span class="token operator">*</span>:8080</code></pre>
+<p>outfile为文件名称，文件名任意，截获的数据都会保存到此文件中。</p>
+<p>指定一个脚本来处理截获的数据，使用-s参数即可：</p>
+<pre class=" language-powershell"><code class="language-powershell">mitmdump <span class="token operator">-</span>s script<span class="token punctuation">.</span>py</code></pre>
+<p>指定当前处理脚本为script.py,需要放置才当前执行命令的文件夹下。</p>
+<p>script.py的代码</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">request</span><span class="token punctuation">(</span>flow<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true">#定义一个request方法，参数为flow,它是一个HTTPFlow对象</span>
+    flow<span class="token punctuation">.</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">[</span><span class="token string">'User-Agent'</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">'MitmProxy'</span>
+    <span class="token comment" spellcheck="true">#通过request属性即可获取当前请求对象,将请求头改为User-Agent</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>flow<span class="token punctuation">.</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">#输出请求的请求头</span></code></pre>
+<p>运行之后，手机访问<a href="http://httpbin.org/get，可以看到User-agent为修改后的值。" target="_blank" rel="noopener">http://httpbin.org/get，可以看到User-agent为修改后的值。</a></p>
+<p>在pc控制台也可以看到输出修改后的Headers内容。</p>
+</li>
+<li><p>日志输出</p>
+<p>mitmdump提供了专门的日志输出功能，可以设定不同级别的颜色输出结果。修改脚本的内容：</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> mitmproxy <span class="token keyword">import</span> ctx
+
+<span class="token keyword">def</span> <span class="token function">request</span><span class="token punctuation">(</span>flow<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true">#定义一个request方法，参数为flow,它是一个HTTPFlow对象</span>
+    flow<span class="token punctuation">.</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">[</span><span class="token string">'User-Agent'</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">'MitmProxy'</span>
+    <span class="token comment" spellcheck="true">#通过request属性即可获取当前请求对象,将请求头改为User-Agent</span>
+
+    <span class="token comment" spellcheck="true"># 调用ctx模块，它有一个log功能，调用不同的输出方法就可以输出不同颜色的结果</span>
+    <span class="token comment" spellcheck="true"># info()方法输出的内容颜色为白色，warn()为黄色，error()为红色</span>
+    ctx<span class="token punctuation">.</span>log<span class="token punctuation">.</span>info<span class="token punctuation">(</span>str<span class="token punctuation">(</span>flow<span class="token punctuation">.</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    ctx<span class="token punctuation">.</span>log<span class="token punctuation">.</span>warn<span class="token punctuation">(</span>str<span class="token punctuation">(</span>flow<span class="token punctuation">.</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    ctx<span class="token punctuation">.</span>log<span class="token punctuation">.</span>error<span class="token punctuation">(</span>str<span class="token punctuation">(</span>flow<span class="token punctuation">.</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+</li>
+<li><p>Request</p>
+<p>前面实现了request()方法对Headers进行了修改。Request的常用功能：</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> mitmproxy <span class="token keyword">import</span> ctx
+
+<span class="token keyword">def</span> <span class="token function">request</span><span class="token punctuation">(</span>flow<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    request<span class="token operator">=</span>flow<span class="token punctuation">.</span>request
+    info<span class="token operator">=</span>ctx<span class="token punctuation">.</span>log<span class="token punctuation">.</span>info
+    info<span class="token punctuation">(</span>request<span class="token punctuation">.</span>url<span class="token punctuation">)</span>
+    info<span class="token punctuation">(</span>str<span class="token punctuation">(</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    info<span class="token punctuation">(</span>str<span class="token punctuation">(</span>request<span class="token punctuation">.</span>cookies<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    info<span class="token punctuation">(</span>request<span class="token punctuation">.</span>host<span class="token punctuation">)</span>
+    info<span class="token punctuation">(</span>request<span class="token punctuation">.</span>method<span class="token punctuation">)</span>
+    info<span class="token punctuation">(</span>str<span class="token punctuation">(</span>request<span class="token punctuation">.</span>port<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    info<span class="token punctuation">(</span>request<span class="token punctuation">.</span>scheme<span class="token punctuation">)</span>
+</code></pre>
+<p>运行此脚本，在手机上打开百度，即可看到pc控制台输出一系列请求，也可看到控制台输出Request的一些常见属性，url，headers,cookies,host,method,scheme等。</p>
+<pre class=" language-powershell"><code class="language-powershell">https:<span class="token operator">/</span><span class="token operator">/</span>m<span class="token punctuation">.</span>baidu<span class="token punctuation">.</span>com<span class="token operator">/</span>tc?tcreq4log=1&amp;r=1579863109862&amp;logid=2728<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+Headers<span class="token punctuation">[</span><span class="token punctuation">(</span>b<span class="token string">'Host'</span><span class="token punctuation">,</span> b<span class="token string">'m.baidu.com'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>b<span class="token string">'Connection'</span><span class="token punctuation">,</span> b<span class="token string">'keep-alive'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>b<span class="token string">'User-Agent'</span><span class="token punctuation">,</span> b<span class="token string">'Mozilla/5.0 (Linux; U; Android 6.0.1; zh-cn; OPPO A57t Build/
+MMB29M) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/66.0.3359.126 MQQBrowser/10.0 Mobile Safari/537.36'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>b<span class="token string">'Accept'</span><span class="token punctuation">,</span> b<span class="token string">'image/webp,i
+mage/sharpp,image/apng,image/tpg,image/*,*/*;q=0.8'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>b<span class="token string">'Referer'</span><span class="token punctuation">,</span> b<span class="token string">'https://m.baidu.com/?from=1086k'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>b<span class="token string">'Accept-Encoding'</span><span class="token punctuation">,</span> b<span class="token string">'gzip, deflate'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>b
+<span class="token string">'Accept-Language'</span><span class="token punctuation">,</span> b<span class="token string">'zh-CN,en-US;q=0.9'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>b<span class="token string">'Cookie'</span><span class="token punctuation">,</span> b'BAIDUID=B41CBBCB0A75141861A61E19800F4205:FG=1<span class="token punctuation">;</span> delPer=0<span class="token punctuation">;</span> MSA_WH=360_510<span class="token punctuation">;</span> FEED_SIDS=137967_
+1101_16<span class="token punctuation">;</span> COOKIE_SESSION=0_0_0_1_0_w3_2_1_2_0_0_1_20_1573220379<span class="token operator">%</span>7C1<span class="token operator">%</span>230_0_0_0_0_0_0_0_1573220379<span class="token operator">%</span>7C1<span class="token punctuation">;</span> ZD_ENTRY=baidu<span class="token punctuation">;</span> FC_MODEL=<span class="token operator">-</span>1_6_3_5<span class="token punctuation">.</span>42_14<span class="token punctuation">.</span>47_7_
+0_19<span class="token punctuation">.</span>8_3_0_271<span class="token punctuation">.</span>62_<span class="token operator">-</span>1_4_10_24_5_0_1573220834032_1573220379680<span class="token operator">%</span>7C9<span class="token operator">%</span>2314<span class="token punctuation">.</span>47_<span class="token operator">-</span>1_<span class="token operator">-</span>1_10_1570
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+m<span class="token punctuation">.</span>baidu<span class="token punctuation">.</span>com
+GET
+443
+https</code></pre>
+<p>结果分别输出了请求链接，请求头，请求cookies，请求Host,请求方法，请求端口，请求协议。</p>
+<p>同时也可以对任意请求进行更改，直接赋值即可。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> mitmproxy <span class="token keyword">import</span> ctx
+
+<span class="token keyword">def</span> <span class="token function">request</span><span class="token punctuation">(</span>flow<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># 对请求进行更改</span>
+    url<span class="token operator">=</span><span class="token string">'https://httpbin.org/get'</span>
+    flow<span class="token punctuation">.</span>request<span class="token punctuation">.</span>url<span class="token operator">=</span>url</code></pre>
+<p>手机再次访问百度，浏览器上方虽然还是百度的url,但是下方的页面已经换成httpbin.org的页面。cookies仍然是百度的Cookies。</p>
+</li>
+<li><p>响应</p>
+<p>对于爬虫来说，更重要的还是响应内容，Response Body才是爬取的结果。对于响应，mitmdump提供了对应的处理接口，response()方法，</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> mitmproxy <span class="token keyword">import</span> ctx
+
+<span class="token keyword">def</span> <span class="token function">response</span><span class="token punctuation">(</span>flow<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    response<span class="token operator">=</span>flow<span class="token punctuation">.</span>response
+    info<span class="token operator">=</span>ctx<span class="token punctuation">.</span>log<span class="token punctuation">.</span>info
+    ctx<span class="token punctuation">.</span>log<span class="token punctuation">.</span>info<span class="token punctuation">(</span>str<span class="token punctuation">(</span>response<span class="token punctuation">.</span>status_code<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    info<span class="token punctuation">(</span>str<span class="token punctuation">(</span>response<span class="token punctuation">.</span>headers<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    info<span class="token punctuation">(</span>str<span class="token punctuation">(</span>response<span class="token punctuation">.</span>cookies<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    info<span class="token punctuation">(</span>str<span class="token punctuation">(</span>response<span class="token punctuation">.</span>text<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">#网页的源代码</span></code></pre>
+<p>运行此脚本，然后手机访问<a href="http://httpbin.org/get，可以看到控制台输出以下内容" target="_blank" rel="noopener">http://httpbin.org/get，可以看到控制台输出以下内容</a></p>
+<pre class=" language-powershell"><code class="language-powershell">200
+Headers<span class="token punctuation">[</span><span class="token punctuation">(</span>b<span class="token string">'Date'</span><span class="token punctuation">,</span> b<span class="token string">'Sat, 25 Jan 2020 03:54:58 GMT'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>b<span class="token string">'Content-Type'</span><span class="token punctuation">,</span> b<span class="token string">'application/json'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>b<span class="token string">'Content-Length'</span><span class="token punctuation">,</span> b<span class="token string">'819'</span><span class="token punctuation">)</span>
+<span class="token punctuation">,</span> <span class="token punctuation">(</span>b<span class="token string">'Connection'</span><span class="token punctuation">,</span> b<span class="token string">'keep-alive'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>b<span class="token string">'Server'</span><span class="token punctuation">,</span> b<span class="token string">'gunicorn/19.9.0'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>b<span class="token string">'Access-Control-Allow-Origin'</span><span class="token punctuation">,</span> b<span class="token string">'*'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>b<span class="token string">'Access-Con
+trol-Allow-Credentials'</span><span class="token punctuation">,</span> b<span class="token string">'true'</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+MultiDictView<span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token punctuation">{</span>
+  <span class="token string">"args"</span>: <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token string">"headers"</span>: <span class="token punctuation">{</span>
+    <span class="token string">"Accept"</span>: <span class="token string">"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,image/sharpp,image/apng,image
+/tpg,*/*;q=0.8"</span><span class="token punctuation">,</span>
+    <span class="token string">"Accept-Encoding"</span>: <span class="token string">"gzip, deflate"</span><span class="token punctuation">,</span>
+    <span class="token string">"Accept-Language"</span>: <span class="token string">"zh-CN,en-US;q=0.9"</span><span class="token punctuation">,</span>
+    <span class="token string">"Cache-Control"</span>: <span class="token string">"max-age=0"</span><span class="token punctuation">,</span>
+    <span class="token string">"Cookie"</span>: <span class="token string">"pgv_info=ssid=s6343193020; pgv_pvid=7406669290; ts_uid=7440951464"</span><span class="token punctuation">,</span>
+    <span class="token string">"Host"</span>: <span class="token string">"httpbin.org"</span><span class="token punctuation">,</span>
+    <span class="token string">"Proxy-Connection"</span>: <span class="token string">"keep-alive"</span><span class="token punctuation">,</span>
+    <span class="token string">"Upgrade-Insecure-Requests"</span>: <span class="token string">"1"</span><span class="token punctuation">,</span>
+    <span class="token string">"User-Agent"</span>: <span class="token string">"Mozilla/5.0 (Linux; U; Android 6.0.1; zh-cn; OPPO A57t Build/MMB29M) AppleWebKit/537.36 (KHTML, like
+Gecko) Version/4.0 Chrome/66.0.3359.126 MQQBrowser/10.0 Mobile Safari/537.36"</span><span class="token punctuation">,</span>
+    <span class="token string">"X-Amzn-Trace-Id"</span>: <span class="token string">"Root=1-5e2bbc12-ab284d4ecb7cd12c716f6066"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token string">"origin"</span>: <span class="token string">"223.89.246.68"</span><span class="token punctuation">,</span>
+  <span class="token string">"url"</span>: <span class="token string">"http://httpbin.org/get"</span>
+<span class="token punctuation">}</span></code></pre>
+<p>控制台输出了响应的状态码，响应头，Cookies，响应体。通过response()方法获取每个请求的响应内容，再对响应的内容进行提取和存储，就可以成功完成爬取。</p>
+</li>
+</ul>
+<h4 id="爬取得到APP电子书信息"><a href="#爬取得到APP电子书信息" class="headerlink" title="爬取得到APP电子书信息"></a>爬取得到APP电子书信息</h4><h5 id="1-爬取目标"><a href="#1-爬取目标" class="headerlink" title="1.爬取目标"></a>1.爬取目标</h5><p>爬取得到app内电子书板块的电子书信息，并将信息保存到mongoDB。</p>
+<p>把图书的名称，简介，封面，价格爬取下来，主要是对mitmproxy的用法进行练习，不涉及自动爬取。</p>
+<h5 id="2-所需环境"><a href="#2-所需环境" class="headerlink" title="2.所需环境"></a>2.所需环境</h5><p>安装mitmproxy，手机和pc处于同一局域网下，同时配置好mitmproxy的CA证书，运行pymongo服务以及pyMongo库。</p>
+<h5 id="3-抓取分析"><a href="#3-抓取分析" class="headerlink" title="3.抓取分析"></a>3.抓取分析</h5><p>首先查看一下当前页面的url和返回内容，编写一个脚本</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> mitmproxy <span class="token keyword">import</span> ctx
+
+<span class="token keyword">def</span> <span class="token function">response</span><span class="token punctuation">(</span>flow<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>str<span class="token punctuation">(</span>flow<span class="token punctuation">.</span>request<span class="token punctuation">.</span>url<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">#输出请求的url</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>str<span class="token punctuation">(</span>flow<span class="token punctuation">.</span>response<span class="token punctuation">.</span>text<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">#输出响应内容</span></code></pre>
+<p>运行此脚本，在控制台可以看到相应输出。滑动页面加载更多电子书，控制台就会出现新的输出内容就是APP发出的加载请求，包含了下一页的电子书内容。</p>
+<p>如果控制台有乱码，不易观察接口的url地址，也可以通过mitmweb进行查看，最终可以看到的接口为：</p>
+<p> <a href="https://entree.igetget.com/ebook2/v1/ebook/list，以post的方式进行提交。通过此接口对应的响应，一个json格式的字符串，对其进行格式化或者直接在mitmweb中查看，可以看到书单中图书的详细信息。" target="_blank" rel="noopener">https://entree.igetget.com/ebook2/v1/ebook/list，以post的方式进行提交。通过此接口对应的响应，一个json格式的字符串，对其进行格式化或者直接在mitmweb中查看，可以看到书单中图书的详细信息。</a></p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"c"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"list"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"author"</span><span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
+                <span class="token property">"author_info"</span><span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
+                <span class="token property">"author_list"</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+                <span class="token property">"authors"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                   ...
+                <span class="token property">"book_intro"</span><span class="token operator">:</span> <span class="token string">"如何应对即将到来的阶层社会？\r\n怎么克服自己与生俱来的本能？\r\n如何面对坚固的东西烟消云散？\r\n怎么获得一种面对复杂信息的思维框架？\r\n这个变动的世界里，到底该信谁？\r\n怎么能成为一个高手？\r\n……\r\n\r\n如今，连一个外卖App都在不停升级，学习对我们每个人而言，都不再是过去式、完成时。在这本书里，罗胖将和你继续探索问题的答案。\r\n"</span><span class="token punctuation">,</span>
+                <span class="token property">"book_name"</span><span class="token operator">:</span> <span class="token string">"《终身学习》"</span><span class="token punctuation">,</span>
+                 ...
+                <span class="token property">"cover"</span><span class="token operator">:</span> <span class="token string">"https://piccdn.igetget.com/img/201801/09/201801091204495621516010.jpg"</span><span class="token punctuation">,</span>
+                <span class="token property">"current_price"</span><span class="token operator">:</span> <span class="token string">"9.99"</span><span class="token punctuation">,</span>
+                ...
+                <span class="token property">"price"</span><span class="token operator">:</span> <span class="token string">"9.99"</span><span class="token punctuation">,</span>
+                <span class="token property">"publish_time"</span><span class="token operator">:</span> <span class="token string">"2017-11-01"</span><span class="token punctuation">,</span>
+                <span class="token property">"rank"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                    <span class="token property">"classTitle"</span><span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
+                    <span class="token property">"classificationId"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                    <span class="token property">"ranking"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+                    <span class="token property">"requestType"</span><span class="token operator">:</span> <span class="token string">"hot_rank"</span>
+                <span class="token punctuation">}</span>
+                ...
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"author"</span><span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
+                <span class="token property">"author_info"</span><span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
+                <span class="token property">"author_list"</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+                <span class="token property">"authors"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+               ...
+                <span class="token property">"book_intro"</span><span class="token operator">:</span> <span class="token string">"你应该去哪里找寻自己的心上人？什么“货币”能够“买”到好伴侣？如何在初次约会时就令对方怦然心动？何时应该欲擒故纵？何时应该主动出击？如何利用两性差异让对方爱上你？如何靠近女人的心灵？如何满足对方内心深处的渴望？\n\n国际著名情感问题专家莉尔·朗兹以坚实的科学研究为基础，通过真实生动的个案，对男女两性在情爱观念与行为上的差异进行了饶有趣味的分析。书中详细描述了男女在情感需求与表达方面的区别，探讨了他们坠入情网的缘由和过程，并由此引导我们通过各种语言以及非语言的方法与技巧，博得意中人的青睐，收获心目中的理想爱情。"</span><span class="token punctuation">,</span>
+                <span class="token property">"book_name"</span><span class="token operator">:</span> <span class="token string">"如何让你爱的人爱上你"</span><span class="token punctuation">,</span>
+                ...</code></pre>
+<h5 id="4-抓取数据"><a href="#4-抓取数据" class="headerlink" title="4.抓取数据"></a>4.抓取数据</h5><p>修改上述脚本，其内容为：</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> mitmproxy <span class="token keyword">import</span> ctx
+<span class="token keyword">import</span> json
+<span class="token keyword">def</span> <span class="token function">response</span><span class="token punctuation">(</span>flow<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># print(str(flow.request.url))#输出请求的url</span>
+    <span class="token comment" spellcheck="true"># print(str(flow.response.text))#输出响应内容</span>
+
+    url<span class="token operator">=</span><span class="token string">'https://entree.igetget.com/ebook2/v1/ebook/list'</span>
+    <span class="token keyword">if</span> flow<span class="token punctuation">.</span>request<span class="token punctuation">.</span>url<span class="token punctuation">.</span>startswith<span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        text<span class="token operator">=</span>flow<span class="token punctuation">.</span>response<span class="token punctuation">.</span>text
+        data<span class="token operator">=</span>json<span class="token punctuation">.</span>loads<span class="token punctuation">(</span>text<span class="token punctuation">)</span>
+        books<span class="token operator">=</span>data<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'list'</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> book <span class="token keyword">in</span> books<span class="token punctuation">:</span>
+            ctx<span class="token punctuation">.</span>log<span class="token punctuation">.</span>info<span class="token punctuation">(</span>str<span class="token punctuation">(</span>book<span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+<p>滑动电子书页面，在pc控制台观察输出，</p>
+<pre class=" language-json"><code class="language-json"><span class="token number">192.168</span>.<span class="token number">155.2</span><span class="token operator">:</span><span class="token number">61151</span><span class="token operator">:</span> POST https<span class="token operator">:</span>//entree.igetget.com/ebook2/v1/ebook/list
+                  &lt;&lt; <span class="token number">200</span> OK <span class="token number">15</span>.99k
+<span class="token punctuation">{</span>'id'<span class="token operator">:</span> <span class="token number">14529</span><span class="token punctuation">,</span> 'title'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'style'<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> 'type'<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> 'class'<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> 'sub_class'<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> 'author'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'cover'<span class="token operator">:</span> 'https<span class="token operator">:</span>//piccdn.ige
+tget.com/img/<span class="token number">201907</span>/<span class="token number">24</span>/<span class="token number">201907241348379903869831</span>.jpg'<span class="token punctuation">,</span> 'banner'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'count'<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> 'price'<span class="token operator">:</span> '<span class="token number">9.90</span>'<span class="token punctuation">,</span> 'status'<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> 'epub'<span class="token operator">:</span> '<span class="token number">2</span>
+<span class="token number">019</span>'<span class="token punctuation">,</span> 'sell_count'<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> 'sell_seven_day'<span class="token operator">:</span> <span class="token number">17</span><span class="token punctuation">,</span> 'operating_title'<span class="token operator">:</span> '万历十五年（中华书局修订版）'<span class="token punctuation">,</span> 'short_title'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'inte
+gral'<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> 'other_content'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'other_share_title'<span class="token operator">:</span> '得到好书 | 万历十五年（中华书局修订版）'<span class="token punctuation">,</span> 'other_share_summary'<span class="token operator">:</span> '
+一部打开中国人视野的经典之作。'<span class="token punctuation">,</span> 'other_data'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'top'<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> 'datetime'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'uptime'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'drm_epub_size'<span class="token operator">:</span> '<span class="token number">11883565</span>'<span class="token punctuation">,</span>
+'author_info'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'book_name'<span class="token operator">:</span> '万历十五年（经典本）'<span class="token punctuation">,</span> 'book_author'<span class="token operator">:</span> '黄仁宇'<span class="token punctuation">,</span> 'press'<span class="token operator">:</span> ' 中华书局'<span class="token punctuation">,</span> 'publish_time'<span class="token operator">:</span> '
+<span class="token number">2014</span>-<span class="token number">08</span>-<span class="token number">01</span>'<span class="token punctuation">,</span> 'catalog'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'catalog_list'<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> 'book_intro'<span class="token operator">:</span> '万历十五年，亦即公元<span class="token number">1587</span>年，在西欧历史上为西班牙舰队全部
+出动征英的前一年；而在中国，在这平平淡淡的一年中，发生了若干为历史学家所易于忽视的事件。这些事件，表面看来虽似末端小节，
+但实质上却是以前发生大事的症结，也是将在以后掀起波澜的机缘。在历史学家黄仁宇的眼中，其间的关系因果，恰为历史的重点，而我
+们的大历史之旅，也自此开始。\n\n本书英文本推出后，被美国多所大学采用为教科书，并两次获得美国国家图书奖（American Book Aw
+ards）历史类好书的提名；中文本问世后，获得如潮好评，成为众多作家、学者、企业家、高校师生的案头必备书，并入选《新周刊》和
+《书城》“改革开放<span class="token number">20</span>年来对中国影响最大的<span class="token number">20</span>本书”等。另有日文、法文、德文等版本。'<span class="token punctuation">,</span> 'tts_switch'<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> 'merchant_id'<span class="token operator">:</span> <span class="token number">1430</span><span class="token punctuation">,</span>
+ 'contract_number'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'online_time'<span class="token operator">:</span> <span class="token number">1563983897</span><span class="token punctuation">,</span> 'b_special_price'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'current_price'<span class="token operator">:</span> '<span class="token number">9.90</span>'...
+
+ <span class="token punctuation">{</span>'id'<span class="token operator">:</span> <span class="token number">2028</span><span class="token punctuation">,</span> 'title'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'style'<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> 'type'<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> 'class'<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> 'sub_class'<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> 'author'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'cover'<span class="token operator">:</span> 'https<span class="token operator">:</span>//piccdn.iget
+get.com/img/<span class="token number">201712</span>/<span class="token number">28</span>/<span class="token number">201712281420073440034671</span>.jpg'<span class="token punctuation">,</span> 'banner'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'count'<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> 'price'<span class="token operator">:</span> '<span class="token number">29.40</span>'<span class="token punctuation">,</span> 'status'<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> 'epub'<span class="token operator">:</span> '<span class="token number">2</span>
+<span class="token number">019</span>'<span class="token punctuation">,</span> 'sell_count'<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> 'sell_seven_day'<span class="token operator">:</span> <span class="token number">17</span><span class="token punctuation">,</span> 'operating_title'<span class="token operator">:</span> '原则'<span class="token punctuation">,</span> 'short_title'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'integral'<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> 'other_content
+'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'other_share_title'<span class="token operator">:</span> '得到好书 | 原则'<span class="token punctuation">,</span> 'other_share_summary'<span class="token operator">:</span> '罗辑思维年度推荐。华尔街投资大神为你解读「算法」
+人生。'<span class="token punctuation">,</span> 'other_data'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'top'<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> 'datetime'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'uptime'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'drm_epub_size'<span class="token operator">:</span> '<span class="token number">3885430</span>'<span class="token punctuation">,</span> 'author_info'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'book_
+name'<span class="token operator">:</span> '原则'<span class="token punctuation">,</span> 'book_author'<span class="token operator">:</span> '【美】瑞·达利欧'<span class="token punctuation">,</span> 'press'<span class="token operator">:</span> '中信出版集团'<span class="token punctuation">,</span> 'publish_time'<span class="token operator">:</span> '<span class="token number">2018</span>-<span class="token number">01</span>-<span class="token number">01</span>'<span class="token punctuation">,</span> 'catalog'<span class="token operator">:</span> ''<span class="token punctuation">,</span>
+'catalog_list'<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> 'book_intro'<span class="token operator">:</span> '瑞·达利欧是全世界顶级投资家、企业家之一，对冲基金公司桥水创始人。桥水创立至今为客户
+赚取的收益远远超过历史上任何一家对冲基金。达利欧认为桥水的成功源自他所奉行的一套原则，而这些原则也是他一生中学到的最重要
+的东西。\r\n\r\n达利欧认为，我们可以像看待机器一样看待生活、管理、经商和投资，并将其系统化为一系列原则。这本书阐述了他的
+原则的两大基石——极度求真、极度透明，并介绍了以此为基础的创意择优，以及基于可信度评价的决策机制。书中<span class="token number">500</span>多条原则将帮助
+我们保持开放心态，看清现实，正确评价自己和他人，从容面对做决策、打造强大团队等问题，更进一步深入认识自我，实现不断成长。
+\r\n\r\n达利欧相信，自己的成功并非因为个人的特质，而是因为他从失败中学会了做人、做事的原则，而大多数人和公司都可以运用他
+的这些原则更好地实现自己的目标。'<span class="token punctuation">,</span> 'tts_switch'<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> 'merchant_id'<span class="token operator">:</span> <span class="token number">1135</span><span class="token punctuation">,</span> 'contract_number'<span class="token operator">:</span> ''<span class="token punctuation">,</span> 'online_time'<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> 'b_spe
+cial_price'<span class="token operator">:</span> '<span class="token number">26.99</span>'<span class="token punctuation">,</span> 'current_price'<span class="token operator">:</span> '<span class="token number">29.40</span>'<span class="token punctuation">,</span>
+....                                                       </code></pre>
+<p>这样就得到了图书的全部信息，一本图书对应一条json数据。</p>
+<h5 id="5-提取保存"><a href="#5-提取保存" class="headerlink" title="5.提取保存"></a>5.提取保存</h5><p>提取重要信息，将数据保存到mongoDB数据库。</p>
+<p>增加脚本的提取信息和保存信息部分即可。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> json
+<span class="token keyword">import</span> pymongo
+<span class="token keyword">from</span> mitmproxy <span class="token keyword">import</span> ctx
+
+
+<span class="token keyword">class</span> <span class="token class-name">Insert_mongo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>client<span class="token operator">=</span>pymongo<span class="token punctuation">.</span>MongoClient<span class="token punctuation">(</span><span class="token string">'localhost'</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>db<span class="token operator">=</span>self<span class="token punctuation">.</span>client<span class="token punctuation">.</span>igetget
+        self<span class="token punctuation">.</span>collection<span class="token operator">=</span>self<span class="token punctuation">.</span>db<span class="token punctuation">.</span>books
+    <span class="token keyword">def</span> <span class="token function">Insert_data</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span>data<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>collection<span class="token punctuation">.</span>insert<span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+
+insert_mogo<span class="token operator">=</span>Insert_mongo<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">response</span><span class="token punctuation">(</span>flow<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># print(str(flow.request.url))#输出请求的url</span>
+    <span class="token comment" spellcheck="true"># print(str(flow.response.text))#输出响应内容</span>
+
+    <span class="token keyword">global</span> insert_mogo <span class="token comment" spellcheck="true">#将insert_mogo设置为全局变量</span>
+
+    url<span class="token operator">=</span><span class="token string">'https://entree.igetget.com/ebook2/v1/ebook/list'</span>
+    <span class="token keyword">if</span> flow<span class="token punctuation">.</span>request<span class="token punctuation">.</span>url<span class="token punctuation">.</span>startswith<span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        text<span class="token operator">=</span>flow<span class="token punctuation">.</span>response<span class="token punctuation">.</span>text
+        data<span class="token operator">=</span>json<span class="token punctuation">.</span>loads<span class="token punctuation">(</span>text<span class="token punctuation">)</span>
+        books<span class="token operator">=</span>data<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'list'</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> book <span class="token keyword">in</span> books<span class="token punctuation">:</span>
+            data<span class="token operator">=</span><span class="token punctuation">{</span>
+                <span class="token string">'book_name'</span><span class="token punctuation">:</span> book<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'book_name'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token string">'cover'</span><span class="token punctuation">:</span> book<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'cover'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token string">'summary'</span><span class="token punctuation">:</span> book<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'other_share_summary'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token string">'book_price'</span><span class="token punctuation">:</span> book<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'price'</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+            ctx<span class="token punctuation">.</span>log<span class="token punctuation">.</span>info<span class="token punctuation">(</span>str<span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            insert_mogo<span class="token punctuation">.</span>Insert_data<span class="token punctuation">(</span>data<span class="token punctuation">)</span></code></pre>
+<p>控制台输出：</p>
+<pre class=" language-powershell"><code class="language-powershell">192<span class="token punctuation">.</span>168<span class="token punctuation">.</span>155<span class="token punctuation">.</span>2:61675: POST https:<span class="token operator">/</span><span class="token operator">/</span>entree<span class="token punctuation">.</span>igetget<span class="token punctuation">.</span>com<span class="token operator">/</span>ebook2<span class="token operator">/</span>v1<span class="token operator">/</span>ebook<span class="token operator">/</span>list
+                  &lt;&lt; 200 OK 15<span class="token punctuation">.</span>99k
+<span class="token punctuation">{</span><span class="token string">'book_name'</span>: <span class="token string">'万历十五年（经典本）'</span><span class="token punctuation">,</span> <span class="token string">'cover'</span>: <span class="token string">'https://piccdn.igetget.com/img/201907/24/201907241348379903869831.jpg'</span><span class="token punctuation">,</span>
+<span class="token string">'summary'</span>: <span class="token string">'一部打开中国人视野的经典之作。'</span><span class="token punctuation">,</span> <span class="token string">'book_price'</span>: <span class="token string">'9.90'</span><span class="token punctuation">}</span>
+<span class="token punctuation">{</span><span class="token string">'book_name'</span>: <span class="token string">'原则'</span><span class="token punctuation">,</span> <span class="token string">'cover'</span>: <span class="token string">'https://piccdn.igetget.com/img/201712/28/201712281420073440034671.jpg'</span><span class="token punctuation">,</span> <span class="token string">'summary'</span>: <span class="token string">'罗辑
+思维年度推荐。华尔街投资大神为你解读「算法」人生。'</span><span class="token punctuation">,</span> <span class="token string">'book_price'</span>: <span class="token string">'29.40'</span><span class="token punctuation">}</span>
+<span class="token punctuation">{</span><span class="token string">'book_name'</span>: <span class="token string">'被讨厌的勇气：“自我启发之父”阿德勒的哲学课'</span><span class="token punctuation">,</span> <span class="token string">'cover'</span>: <span class="token string">'https://piccdn.igetget.com/img/201901/17/2019011
+72035047308914281.jpg'</span><span class="token punctuation">,</span> <span class="token string">'summary'</span>: <span class="token string">'《万维钢·精英日课》第三季专题解读，一套强人的生活哲学。'</span><span class="token punctuation">,</span> <span class="token string">'book_price'</span>: <span class="token string">'19.90'</span><span class="token punctuation">}</span>
+<span class="token punctuation">{</span><span class="token string">'book_name'</span>: <span class="token string">'穷查理宝典：查理·芒格智慧箴言录'</span><span class="token punctuation">,</span> <span class="token string">'cover'</span>: <span class="token string">'https://piccdn.igetget.com/img/201701/03/2017010322003022491
+98898.jpg'</span><span class="token punctuation">,</span> <span class="token string">'summary'</span>: <span class="token string">'理解商业社会、认识成功本质必读的10本书之一。'</span><span class="token punctuation">,</span> <span class="token string">'book_price'</span>: <span class="token string">'12.99'</span><span class="token punctuation">}</span>
+<span class="token punctuation">{</span><span class="token string">'book_name'</span>: <span class="token string">'吃货的生物学修养：脂肪、糖和代谢病的科学传奇'</span><span class="token punctuation">,</span> <span class="token string">'cover'</span>: <span class="token string">'https://piccdn.igetget.com/img/201803/15/2018031
+51847107634245565.jpg'</span><span class="token punctuation">,</span> <span class="token string">'summary'</span>: <span class="token string">'读懂身体里脂肪和糖的秘密，选择适合的饮食方式，让你吃得更好。'</span><span class="token punctuation">,</span> <span class="token string">'book_price'</span>: <span class="token string">'9.90'</span><span class="token punctuation">}</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span></code></pre>
+<p>查询数据库：</p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>'_id'<span class="token operator">:</span> ObjectId('5e2bffd069607b8cdfd8f652'<span class="token punctuation">)</span><span class="token punctuation">,</span> 'book_name'<span class="token operator">:</span> '万历十五年（经典本）'<span class="token punctuation">,</span> 'cover'<span class="token operator">:</span> 'https<span class="token operator">:</span>//piccdn.igetget.com/img/<span class="token number">201907</span>/<span class="token number">24</span>/<span class="token number">201907241348379903869831</span>.jpg'<span class="token punctuation">,</span> 'summary'<span class="token operator">:</span> '一部打开中国人视野的经典之作。'<span class="token punctuation">,</span> 'book_price'<span class="token operator">:</span> '<span class="token number">9.90</span>'<span class="token punctuation">}</span>
+<span class="token punctuation">{</span>'_id'<span class="token operator">:</span> ObjectId('5e2bffd069607b8cdfd8f653'<span class="token punctuation">)</span><span class="token punctuation">,</span> 'book_name'<span class="token operator">:</span> '原则'<span class="token punctuation">,</span> 'cover'<span class="token operator">:</span> 'https<span class="token operator">:</span>//piccdn.igetget.com/img/<span class="token number">201712</span>/<span class="token number">28</span>/<span class="token number">201712281420073440034671</span>.jpg'<span class="token punctuation">,</span> 'summary'<span class="token operator">:</span> '罗辑思维年度推荐。华尔街投资大神为你解读「算法」人生。'<span class="token punctuation">,</span> 'book_price'<span class="token operator">:</span> '<span class="token number">29.40</span>'<span class="token punctuation">}</span>
+<span class="token punctuation">{</span>'_id'<span class="token operator">:</span> ObjectId('5e2bffd069607b8cdfd8f654'<span class="token punctuation">)</span><span class="token punctuation">,</span> 'book_name'<span class="token operator">:</span> '被讨厌的勇气：“自我启发之父”阿德勒的哲学课'<span class="token punctuation">,</span> 'cover'<span class="token operator">:</span> 'https<span class="token operator">:</span>//piccdn.igetget.com/img/<span class="token number">201901</span>/<span class="token number">17</span>/<span class="token number">201901172035047308914281</span>.jpg'<span class="token punctuation">,</span> 'summary'<span class="token operator">:</span> '《万维钢·精英日课》第三季专题解读，一套强人的生活哲学。'<span class="token punctuation">,</span> 'book_price'<span class="token operator">:</span> '<span class="token number">19.90</span>'<span class="token punctuation">}</span>
+...</code></pre>
+
+            </div>
+            <hr/>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《mitmproxy使用》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2020/01/23/mitmproxy/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                White Spider
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2020/01/23/mitmproxy/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="mitmproxy使用">
+                        
+                        <span class="card-title">mitmproxy使用</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            mitmproxy,mymongo,mitmdump
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-01-23
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/爬虫-app数据爬取/" class="post-category" target="_blank">
+                                    爬虫,app数据爬取
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/mitmproxy-python3/" target="_blank">
+                        <span class="chip bg-color">mitmproxy python3</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/01/17/scrapy/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="scrapy框架的使用">
+                        
+                        <span class="card-title">scrapy框架的使用</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            scrapy
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-01-17
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/scrapy/" class="post-category" target="_blank">
+                                    scrapy
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/scrapy-python3/" target="_blank">
+                        <span class="chip bg-color">scrapy python3</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4,h5,h6'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4,h5,h6').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            本站由&nbsp;&copy;<a href="https://blinkfox.github.io/" target="_blank">Blinkfox</a>&nbsp;基于
+            <a href="https://hexo.io/" target="_blank">Hexo</a>&nbsp;的
+            <a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>&nbsp;主题搭建
+            <br>
+            
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">43.8k</span>&nbsp;字
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="fa fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fa fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            <br>
+            <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+            <script>
+                var now = new Date();
+
+                function createtime() {
+                    var grt = new Date("08/1/2019 00:00:00");
+                    now.setTime(now.getTime() + 250);
+                    days = (now - grt) / 1000 / 60 / 60 / 24;
+                    dnum = Math.floor(days);
+                    hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+                    hnum = Math.floor(hours);
+                    if (String(hnum).length == 1) {
+                        hnum = "0" + hnum;
+                    }
+                    minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+                    mnum = Math.floor(minutes);
+                    if (String(mnum).length == 1) {
+                        mnum = "0" + mnum;
+                    }
+                    seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+                    snum = Math.round(seconds);
+                    if (String(snum).length == 1) {
+                        snum = "0" + snum;
+                    }
+                    document.getElementById("timeDate").innerHTML = "本站已安全运行 " + dnum + " 天 ";
+                    document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+                }
+                setInterval("createtime()", 250);
+            </script>
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="/libs/materialize/materialize.min.js"></script>
+<script src="/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="/libs/aos/aos.js"></script>
+<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    <script src="/libs/others/clicklove.js"></script>
+
+
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+
+
+</body>
+</html>

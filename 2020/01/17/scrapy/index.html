@@ -1,0 +1,1262 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="scrapy框架的使用, White Spider">
+    <meta name="description" content="scrapy框架介绍Scrapy基于Twisted的异步处理框架，是纯python实现的框架。结构清晰，模块间的耦合程度低，可扩展性强，灵活完成各种需求。
+1.架构Engine:引擎，处理整个系统的数据流处理，触发事务，框架的核心。
+Ite">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>scrapy框架的使用 | White Spider</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">White Spider</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right nav-menu">
+    
+	<li class="hide-on-med-and-down nav-item" >
+		
+					  <a href="/" class="waves-effect waves-light">
+						
+						<i class="fa fa-home"></i>
+						
+						<span>首页</span>
+					</a>
+          
+        </li>
+    
+	<li class="hide-on-med-and-down nav-item" >
+		
+					  <a href="/tags" class="waves-effect waves-light">
+						
+						<i class="fa fa-tags"></i>
+						
+						<span>标签</span>
+					</a>
+          
+        </li>
+    
+	<li class="hide-on-med-and-down nav-item" >
+		
+					  <a href="/categories" class="waves-effect waves-light">
+						
+						<i class="fa fa-bookmark"></i>
+						
+						<span>分类</span>
+					</a>
+          
+        </li>
+    
+	<li class="hide-on-med-and-down nav-item" >
+		
+					  <a href="/archives" class="waves-effect waves-light">
+						
+						<i class="fa fa-archive"></i>
+						
+						<span>归档</span>
+					</a>
+          
+        </li>
+    
+	<li class="hide-on-med-and-down nav-item" >
+		
+					  <a href="/about" class="waves-effect waves-light">
+						
+						<i class="fa fa-user-circle-o"></i>
+						
+						<span>关于</span>
+					</a>
+          
+        </li>
+    
+	<li class="hide-on-med-and-down nav-item" >
+		
+					  <a href="/friends" class="waves-effect waves-light">
+						
+						<i class="fa fa-address-book"></i>
+						
+						<span>友情链接</span>
+					</a>
+          
+        </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">White Spider</div>
+        <div class="logo-desc">
+            
+            积跬步,至千里
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa fa-fw fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa fa-fw fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa fa-fw fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa fa-fw fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa fa-fw fa-user-circle-o"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa fa-fw fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/ejgdlyz/ejgdlyz.github.io" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/ejgdlyz/ejgdlyz.github.io" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        scrapy框架的使用
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/scrapy-python3/" target="_blank">
+                                <span class="chip bg-color">scrapy python3</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/scrapy/" class="post-category" target="_blank">
+                                scrapy
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-01-17
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                        3.8k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                        15 分
+                    </div>
+                    
+                
+				
+				
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h4 id="scrapy框架介绍"><a href="#scrapy框架介绍" class="headerlink" title="scrapy框架介绍"></a>scrapy框架介绍</h4><p>Scrapy基于Twisted的异步处理框架，是纯python实现的框架。结构清晰，模块间的耦合程度低，可扩展性强，灵活完成各种需求。</p>
+<h5 id="1-架构"><a href="#1-架构" class="headerlink" title="1.架构"></a>1.架构</h5><p>Engine:引擎，处理整个系统的数据流处理，触发事务，框架的核心。</p>
+<p>Item:项目，它定义了爬取结果的数据结构，爬取的数据会被赋值成该Item对象。</p>
+<p>Scheduler:调度器，接受引擎发过来的请求并将其加入其中，在引擎再次请求的时候将请求提供给引擎。</p>
+<p>Downlaoder:下载器，下载网页内容，并将其网页内容返回给蜘蛛。</p>
+<p>Spiders:蜘蛛，定义了爬取的逻辑和网页的解析规则，主要负责解析响应并生成提取结果和新的请求。</p>
+<p>Item Pipeline:项目管道，负责处理由蜘蛛从网页中抽取的项目，它的主要任务是清洗，验证和存数据。</p>
+<p>Downloader Middlewares:下载器中间件，位于引擎和下载器之间的钩子框架，主要处理引擎和下载器之间的请求及响应。</p>
+<p>Spider Middlewares:蜘蛛中间件，位于引擎和蜘蛛之间的钩子框架，处理向蜘蛛输入的响应和输出结果及新的请求。</p>
+<h5 id="2-数据流"><a href="#2-数据流" class="headerlink" title="2.数据流"></a>2.数据流</h5><p>Scrapy的数据流由引擎控制，数据流的过程如下：</p>
+<p>(1) Engine 首先打开一个网站，找到处理该网站的spider,并向该spider请求第一个要爬取的url</p>
+<p>(2) Engine从spider中获取到第一个要爬取的url,并通过scheduler以request形式调度。</p>
+<p>(3) Engine向scheduler请求下一个要爬取的url</p>
+<p>(4)Scheduler返回下一个要爬取的url给Engine,Engine将url通过Downloader Middlewares转发给Downloader下载。</p>
+<p>(5)一旦页面下载完毕，Downloader生成该页面Response，并将其通过downloader middlewares发送给Engine</p>
+<p>(6)Engine从下载器接收到Response，并将其通过Spider Middlewares发给spider处理</p>
+<p>(7)Spider处理Response,并返回提取到的Item及新的Request给Engine</p>
+<p>(8)Engine将spider返回的Item给Item Pipeline，将新的request 给Scheduler</p>
+<p>(9)重复(2)-(8)，直到Scheduler中没有更多的Request，Engine关闭该网站，爬取结束。</p>
+<h5 id="3-项目结构"><a href="#3-项目结构" class="headerlink" title="3.项目结构"></a>3.项目结构</h5><p>scrapy不同于pyspider,它通过命令行来创建项目，代码的编写还是需要IDE。项目创建之后，项目文件结构为：</p>
+<pre class=" language-python"><code class="language-python">scrapy<span class="token punctuation">.</span>cfg
+projectname<span class="token operator">/</span>
+    __init__<span class="token punctuation">.</span>py
+    items<span class="token punctuation">.</span>py
+    pipelines<span class="token punctuation">.</span>py
+    settings<span class="token punctuation">.</span>py
+    middlewares<span class="token punctuation">.</span>py
+    spiders<span class="token operator">/</span>
+        __init__<span class="token punctuation">.</span>py
+        spider1<span class="token punctuation">.</span>py
+        spider2<span class="token punctuation">.</span>py
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span></code></pre>
+<p>各个文件的功能：</p>
+<p>scrapy.cfg:scrapy项目的配置文件，其内定义了项目的配置文件路径，部署相关信息等内容。</p>
+<p>items.py:它定义Item数据结构，所有的Item的定义都可以放到这里。</p>
+<p>pipelines.py:它定义Item Pipilines的实现，所有的Item pipelines的实现都可以放到这里。</p>
+<p>settings.py:项目的全局配置。</p>
+<p>middlewares.py:定义spider middlewares和download middlewares的实现。</p>
+<p>spiders:包含一个个spider的实现，灭个spider都有一个文件。</p>
+<h4 id="scrapy入门"><a href="#scrapy入门" class="headerlink" title="scrapy入门"></a>scrapy入门</h4><p>创建一个scrapy项目</p>
+<p>创建一个spider来抓取站点和处理数据</p>
+<p>通过命令行将抓取的内容导出</p>
+<p>将抓取内容保存到mongoDB数据库。</p>
+<p>所需环境：</p>
+<p>scrapy框架，MongoDB和pymongo</p>
+<p>目标网站： <a href="http://quotes.toscrape.com/" target="_blank" rel="noopener">http://quotes.toscrape.com/</a> </p>
+<h5 id="1-创建项目"><a href="#1-创建项目" class="headerlink" title="1.创建项目"></a>1.创建项目</h5><p>项目文件可以直接用命令生成，命令在个目录执行，项目就在此目录生成。</p>
+<pre class=" language-powershell"><code class="language-powershell">scrapy startproject tutorial</code></pre>
+<p>在此目录创建一个tutorial的文件夹，文件夹结构如：</p>
+<pre class=" language-python"><code class="language-python">scrapy<span class="token punctuation">.</span>cfg
+tutorial
+    __init__<span class="token punctuation">.</span>py
+    items<span class="token punctuation">.</span>py items的定义，爬取的数据结构
+    middlewares<span class="token punctuation">.</span>py 定义爬取的中间件
+    pipelines<span class="token punctuation">.</span>py 定义数据管道
+    settings<span class="token punctuation">.</span>py 配置文件
+    spiders 放置spider的文件夹
+        __init__<span class="token punctuation">.</span>py</code></pre>
+<h5 id="2-创建spider"><a href="#2-创建spider" class="headerlink" title="2.创建spider"></a>2.创建spider</h5><p>spider是自己定义的类，scrapy用它来从网页中抓取内容，并解析抓取的结果。这个类必须继承scrapy提供的spider类scrapy.spider，还要定义spider的名称和起始请求，以及处理爬取结果的方法。</p>
+<p>命令行创建一个spider，生成quotes这个spider,如下</p>
+<pre class=" language-powershell"><code class="language-powershell">cd tutorial
+scrapy genspider quotes quotes<span class="token punctuation">.</span>toscrape<span class="token punctuation">.</span>com</code></pre>
+<p>进入刚刚创建的文件夹，执行genspider命令，第一个参数是spider的名称，第二个参数是网站域名。执行成功后，spiders文件夹多了一个quotes.py文件。</p>
+<p>其内容为：</p>
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true"># -*- coding: utf-8 -*-</span>
+<span class="token keyword">import</span> scrapy
+<span class="token keyword">class</span> <span class="token class-name">QuotesSpider</span><span class="token punctuation">(</span>scrapy<span class="token punctuation">.</span>Spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    name <span class="token operator">=</span> <span class="token string">'quotes'</span>
+    allowed_domains <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'quotes.toscrape.com'</span><span class="token punctuation">]</span>
+    start_urls <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'http://quotes.toscrape.com/'</span><span class="token punctuation">]</span>
+
+    <span class="token keyword">def</span> <span class="token function">parse</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">pass</span></code></pre>
+<p>三个属性：</p>
+<p>name 每个项目唯一名字，用来区分不同的spider</p>
+<p>allowed_domains 允许爬取的域名，如果初始或者后续的请求链接不是这个域名下的，则请求会被过滤。</p>
+<p>start_urls 它包含spider在启动时爬取的url列表，初始请求由它来定义。</p>
+<p>parse ，spider的第一个方法。默认情况下，被调用时start_urls里的链接构成的请求完成下载执行后，返回的响应就会作为唯一的参数传递给这个函数。该方法负责解析返回的响应，提取数据或者进一步生成需要处理的请求。</p>
+<h5 id="3-创建Item"><a href="#3-创建Item" class="headerlink" title="3.创建Item"></a>3.创建Item</h5><p>item是保存爬取数据的容器，使用方法和字典类似，而且字典更加全面，新增了额外的保护机制，避免拼写错误或者定义字段错误。</p>
+<p>创建item需要继承scrapy.Item类，并且定义类型为scrapy.field的字段。观察目标网站，我们可以获取的内容有text,author,tag。</p>
+<p>修改items.py内容为</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> scrapy
+<span class="token keyword">class</span> <span class="token class-name">QuoteItem</span><span class="token punctuation">(</span>scrapy<span class="token punctuation">.</span>Item<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># define the fields for your item here like:</span>
+    <span class="token comment" spellcheck="true"># name = scrapy.Field()</span>
+    text<span class="token operator">=</span>scrapy<span class="token punctuation">.</span>Field<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    author<span class="token operator">=</span>scrapy<span class="token punctuation">.</span>Field<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    tag<span class="token operator">=</span>scrapy<span class="token punctuation">.</span>Field<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">#定义了三个字段，类的名称修改为QuoteItem，以供后续的使用</span></code></pre>
+<h5 id="4-解析Response"><a href="#4-解析Response" class="headerlink" title="4.解析Response"></a>4.解析Response</h5><p>前面的parse()方法的参数response是start_urls里面的链接爬取后的结果，在parse()可以直接对response变量包含的内容进行解析。比如请求结果的网页源代码，或者进一步分析源代码的内容，或者找出结果中的下一个请求。</p>
+<p>此次目标网站每页都有10个div,每个div的class都为quote，这个div中包含text,author,tag。首先，找出所有quote,然后获取每个div的内容。</p>
+<p>提取的方法可以是css选择器或者Xpath选择器。</p>
+<p>使用css选择器,改写parse()方法为：</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">parse</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    quotes<span class="token operator">=</span>response<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'.quote'</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> quote <span class="token keyword">in</span> quotes<span class="token punctuation">:</span>
+        text<span class="token operator">=</span>quote<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'.text::text'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>extract_first<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">#.text获取的是整个标签的节点，如果只获取正文内容，用::text来获取，这是的结果是长度为1的列表，用extract_first()方法直接获取</span>
+        author<span class="token operator">=</span>quote<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'.author::text'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>extract_first<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">#类似.text</span>
+        tags<span class="token operator">=</span>quote<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'.tags .tag::text'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>extract<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">#tags要获取所有标签，所以用extract()获取整个列表</span></code></pre>
+<h5 id="5-使用Item"><a href="#5-使用Item" class="headerlink" title="5.使用Item"></a>5.使用Item</h5><p>上文定义了Item,简单理解为一个字典。声明的时候需要实例化，将解析的结果赋值item的每一个字段，最后将item返回。</p>
+<p>QuotesSpider改写后的内容为：</p>
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true"># -*- coding: utf-8 -*-</span>
+<span class="token keyword">import</span> scrapy
+<span class="token keyword">from</span> tutorial<span class="token punctuation">.</span>items <span class="token keyword">import</span> QuoteItem
+
+<span class="token keyword">class</span> <span class="token class-name">QuotesSpider</span><span class="token punctuation">(</span>scrapy<span class="token punctuation">.</span>Spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    name <span class="token operator">=</span> <span class="token string">'quotes'</span>
+    allowed_domains <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'quotes.toscrape.com'</span><span class="token punctuation">]</span>
+    start_urls <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'http://quotes.toscrape.com/'</span><span class="token punctuation">]</span>
+
+    <span class="token keyword">def</span> <span class="token function">parse</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        quotes<span class="token operator">=</span>response<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'.quote'</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> quote <span class="token keyword">in</span> quotes<span class="token punctuation">:</span>
+            item<span class="token operator">=</span>QuoteItem<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            item<span class="token punctuation">[</span><span class="token string">'text'</span><span class="token punctuation">]</span><span class="token operator">=</span>quote<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'.text::text'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>extract_first<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token comment" spellcheck="true">#.text获取的是整个标签的节点，如果只获取正文内容，用::text来获取，这是的结果是长度为1的列表，用extract_first()方法直接获取</span>
+            item<span class="token punctuation">[</span><span class="token string">'author'</span><span class="token punctuation">]</span><span class="token operator">=</span>quote<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'.author::text'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>extract_first<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token comment" spellcheck="true">#类似.text</span>
+            item<span class="token punctuation">[</span><span class="token string">'tags'</span><span class="token punctuation">]</span><span class="token operator">=</span>quote<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'.tags .tag::text'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>extract<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token comment" spellcheck="true">#tags要获取所有标签，所以用extract()获取整个列表</span>
+            <span class="token keyword">yield</span> item</code></pre>
+<h5 id="6-后续Request"><a href="#6-后续Request" class="headerlink" title="6.后续Request"></a>6.后续Request</h5><p>到目前为止，实现了初始页面的抓取。接下来，就要分析源码，找到下一页的信息构造请求，然后在下一页的信息</p>
+<p>中再构造再下一页的请求。</p>
+<p>分析源码，可以看到，下一页的链接有/page/2,全链接就是<a href="http://quotes.tostrape.com/page/2，通过此链接来构造下一页的请求。" target="_blank" rel="noopener">http://quotes.tostrape.com/page/2，通过此链接来构造下一页的请求。</a></p>
+<p>构造请求需要用到scrapy.Request，需要传递两个参数url和callback。</p>
+<p>url:请求的链接</p>
+<p>callback:回调函数。当指定了该回调函数的请求完成之后，获取到响应，引擎会将该响应作为参数传递给这个回调函数。回调函数进行解析或生成下一个请求，回调函数如parse()。</p>
+<p>由于parse()解析text,author,tags，而下一页的结构和已经解析的初始页面的结构一样，所以可以利用parse()进行页面解析。</p>
+<p>通过选择器得到下一页的链接并生成请求，再parse()追加如下代码:</p>
+<pre class=" language-python"><code class="language-python">next<span class="token operator">=</span>response<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'.pager .next a::attr(href)'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>extract_first<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">#通过css选择器获取下一个页面的链接，此时用到了::attr(href)操作。然后调用extract_first()方法获取内容。</span>
+url<span class="token operator">=</span>response<span class="token punctuation">.</span>urljoin<span class="token punctuation">(</span>next<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">#调用urljoin()方法，urljoin()方法可以将相对url构造成一个绝对url,</span>
+<span class="token comment" spellcheck="true">#下一页的地址是/page/2,urljoin()处理后的结果就是http://quotes.toscrape.com/page/2</span>
+<span class="token keyword">yield</span> scrapy<span class="token punctuation">.</span>Request<span class="token punctuation">(</span>url<span class="token operator">=</span>url<span class="token punctuation">,</span>callback<span class="token operator">=</span>self<span class="token punctuation">.</span>parse<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">#通过url和callback构造了一个新的请求，回调函数依然用parse()方法。</span></code></pre>
+<p>这个请求完成之后，响应会重新经过parse()方法处理，得到第二页的解析结果，然后生成第二页的下一页，也就是第三页的请求。这样爬虫就进入了循环，直到最后一页。</p>
+<p>完成的Spider类代码：</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> scrapy
+<span class="token keyword">from</span> tutorial<span class="token punctuation">.</span>items <span class="token keyword">import</span> QuoteItem
+
+<span class="token keyword">class</span> <span class="token class-name">QuotesSpider</span><span class="token punctuation">(</span>scrapy<span class="token punctuation">.</span>Spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    name <span class="token operator">=</span> <span class="token string">'quotes'</span>
+    allowed_domains <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'quotes.toscrape.com'</span><span class="token punctuation">]</span>
+    start_urls <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'http://quotes.toscrape.com/'</span><span class="token punctuation">]</span>
+
+    <span class="token keyword">def</span> <span class="token function">parse</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        quotes<span class="token operator">=</span>response<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'.quote'</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> quote <span class="token keyword">in</span> quotes<span class="token punctuation">:</span>
+            item<span class="token operator">=</span>QuoteItem<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            item<span class="token punctuation">[</span><span class="token string">'text'</span><span class="token punctuation">]</span><span class="token operator">=</span>quote<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'.text::text'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>extract_first<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token comment" spellcheck="true">#.text获取的是整个标签的节点，如果只获取正文内容，用::text来获取，这是的结果是长度为1的列表，用extract_first()方法直接获取</span>
+            item<span class="token punctuation">[</span><span class="token string">'author'</span><span class="token punctuation">]</span><span class="token operator">=</span>quote<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'.author::text'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>extract_first<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token comment" spellcheck="true">#类似.text</span>
+            item<span class="token punctuation">[</span><span class="token string">'tags'</span><span class="token punctuation">]</span><span class="token operator">=</span>quote<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'.tags .tag::text'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>extract<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token comment" spellcheck="true">#tags要获取所有标签，所以用extract()获取整个列表</span>
+            <span class="token keyword">yield</span> item
+        next<span class="token operator">=</span>response<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'.pager .next a::attr(href)'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>extract_first<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">#通过css选择器获取下一个页面的链接，此时用到了::attr(href)操作。然后调用extract_first()方法获取内容。</span>
+        url<span class="token operator">=</span>response<span class="token punctuation">.</span>urljoin<span class="token punctuation">(</span>next<span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">#调用urljoin()方法，urljoin()方法可以将相对url构造成一个绝对url,</span>
+        <span class="token comment" spellcheck="true">#下一页的地址是/page/2,urljoin()处理后的结果就是http://quotes.toscrape.com/page/2</span>
+        <span class="token keyword">yield</span> scrapy<span class="token punctuation">.</span>Request<span class="token punctuation">(</span>url<span class="token operator">=</span>url<span class="token punctuation">,</span>callback<span class="token operator">=</span>self<span class="token punctuation">.</span>parse<span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">#通过url和callback构造了一个新的请求，回调函数依然用parse()方法。</span></code></pre>
+<h5 id="7-运行"><a href="#7-运行" class="headerlink" title="7.运行"></a>7.运行</h5><p>进入目录，运行命令</p>
+<pre class=" language-powershell"><code class="language-powershell">scrapy crawl quotes</code></pre>
+<p>控制台得到输出结果</p>
+<pre class=" language-powershell"><code class="language-powershell"><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+2020<span class="token operator">-</span>01<span class="token operator">-</span>21 15:06:11 <span class="token namespace">[scrapy.core.engine]</span> DEBUG: Crawled <span class="token punctuation">(</span>200<span class="token punctuation">)</span> &lt;GET http:<span class="token operator">/</span><span class="token operator">/</span>quotes<span class="token punctuation">.</span>toscrape<span class="token punctuation">.</span>com<span class="token operator">/</span>page<span class="token operator">/</span>9<span class="token operator">/</span>>
+quotes<span class="token punctuation">.</span>toscrape<span class="token punctuation">.</span>com<span class="token operator">/</span>page<span class="token operator">/</span>8<span class="token operator">/</span><span class="token punctuation">)</span>
+2020<span class="token operator">-</span>01<span class="token operator">-</span>21 15:06:11 <span class="token namespace">[scrapy.core.scraper]</span> DEBUG: Scraped <span class="token keyword">from</span> &lt;200 http:<span class="token operator">/</span><span class="token operator">/</span>quotes<span class="token punctuation">.</span>toscrape<span class="token punctuation">.</span>com<span class="token operator">/</span>page<span class="token operator">/</span>9<span class="token operator">/</span>>
+<span class="token punctuation">{</span><span class="token string">'author'</span>: <span class="token string">'Albert Einstein'</span><span class="token punctuation">,</span>
+ <span class="token string">'tags'</span>: <span class="token punctuation">[</span><span class="token string">'mistakes'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+ <span class="token string">'text'</span>: <span class="token string">'“Anyone who has never made a mistake has never tried anything new.”'</span><span class="token punctuation">}</span>
+2020<span class="token operator">-</span>01<span class="token operator">-</span>21 15:06:11 <span class="token namespace">[scrapy.core.scraper]</span> DEBUG: Scraped <span class="token keyword">from</span> &lt;200 http:<span class="token operator">/</span><span class="token operator">/</span>quotes<span class="token punctuation">.</span>toscrape<span class="token punctuation">.</span>com<span class="token operator">/</span>page<span class="token operator">/</span>9<span class="token operator">/</span>>
+<span class="token punctuation">{</span><span class="token string">'author'</span>: <span class="token string">'Jane Austen'</span><span class="token punctuation">,</span>
+ <span class="token string">'tags'</span>: <span class="token punctuation">[</span><span class="token string">'humor'</span><span class="token punctuation">,</span> <span class="token string">'love'</span><span class="token punctuation">,</span> <span class="token string">'romantic'</span><span class="token punctuation">,</span> <span class="token string">'women'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+ <span class="token string">'text'</span>: <span class="token string">"“A lady's imagination is very rapid; it jumps from admiration to "</span>
+         <span class="token string">'love, from love to matrimony in a moment.”'</span><span class="token punctuation">}</span>
+2020<span class="token operator">-</span>01<span class="token operator">-</span>21 15:06:11 <span class="token namespace">[scrapy.core.scraper]</span> DEBUG: Scraped <span class="token keyword">from</span> &lt;200 http:<span class="token operator">/</span><span class="token operator">/</span>quotes<span class="token punctuation">.</span>toscrape<span class="token punctuation">.</span>com<span class="token operator">/</span>page<span class="token operator">/</span>9<span class="token operator">/</span>>
+<span class="token punctuation">{</span><span class="token string">'author'</span>: <span class="token string">'J.K. Rowling'</span><span class="token punctuation">,</span>
+ <span class="token string">'tags'</span>: <span class="token punctuation">[</span><span class="token string">'integrity'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+ <span class="token string">'text'</span>: <span class="token string">'“Remember, if the time should come when you have to make a choice '</span>
+         <span class="token string">'between what is right and what is easy, remember what happened to a '</span>
+         <span class="token string">'boy who was good, and kind, and brave, because he strayed across the '</span>
+         <span class="token string">'path of Lord Voldemort. Remember Cedric Diggory.”'</span><span class="token punctuation">}</span>
+2020<span class="token operator">-</span>01<span class="token operator">-</span>21 15:06:11 <span class="token namespace">[scrapy.core.scraper]</span> DEBUG: Scraped <span class="token keyword">from</span> &lt;200 http:<span class="token operator">/</span><span class="token operator">/</span>quotes<span class="token punctuation">.</span>toscrape<span class="token punctuation">.</span>com<span class="token operator">/</span>page<span class="token operator">/</span>9<span class="token operator">/</span>>
+<span class="token punctuation">{</span><span class="token string">'author'</span>: <span class="token string">'Jane Austen'</span><span class="token punctuation">,</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span></code></pre>
+<h5 id="8-保存到文件"><a href="#8-保存到文件" class="headerlink" title="8.保存到文件"></a>8.保存到文件</h5><p>scrapy提供的Feed Exports可以较为方便的将抓取结果输出。</p>
+<p>如果将爬取结果保存为json文件，可执行如下命令：</p>
+<pre class=" language-powershell"><code class="language-powershell">scrapy crawl quotes <span class="token operator">-</span>o quotes<span class="token punctuation">.</span>json</code></pre>
+<p>运行之后项目中多了一个quotes.json文件，包含了抓取的所有内容。</p>
+<p>另外也可以灭一个Item输出一行json,输出后缀为jl,为jsonline的缩写，命令为：</p>
+<pre class=" language-powershell"><code class="language-powershell">scrapy crawl quotes <span class="token operator">-</span>o quotes<span class="token punctuation">.</span>jl</code></pre>
+<p>输出格式有很多，像csv,xml,pickl等，还支持ftp，s3等远程输出。也可通过自定义来实现其他输出。</p>
+<p>将结果输出到文件，对一些小型项目来说，已经足够了。但若想要更加复杂的输出，如输出到数据库，可以使用Item Pipeline来完成。</p>
+<p>9.使用Item Pipeline</p>
+<p>Item pipeline 为项目管道，当Item生成后，它会自动被送到Item Pipiline进行处理，常用Item pipeline实现如下操作。</p>
+<p>清理HTML数据</p>
+<p>验证爬取数据，检查爬取字段</p>
+<p>查重并对齐重复内容</p>
+<p>将爬取结果保存到数据库</p>
+<p>要实现Item pipeline，只需定义一个类并实现process_item()方法即可。启用Item pipeline后，Item pipeline会自动调用这个方法。process_item()方法必须返回包含数据的字典或Item对象。</p>
+<p>process_item()方法有两个参数，一个参数是item,每次Spider生成的Item都会作为参数传递过来。另一个就是spider,也就是Spider的实例。</p>
+<p>接下来实现一个Item pipeline，筛掉text长度大于50的Item,并将结果保存到mongoDB数据库。</p>
+<p>修改项目里的pipelines.py文件，之前用命令自动生成的文件内容可以删除，增加一个TextPipeline类，内容为：</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> scrapy<span class="token punctuation">.</span>exceptions <span class="token keyword">import</span> DropItem
+<span class="token keyword">class</span> <span class="token class-name">TextPipeline</span><span class="token punctuation">(</span>object<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment" spellcheck="true">#构造方法里定义限制长度为50</span>
+        self<span class="token punctuation">.</span>limit<span class="token operator">=</span><span class="token number">50</span>
+    <span class="token keyword">def</span> <span class="token function">process_item</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span>item<span class="token punctuation">,</span>spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> item<span class="token punctuation">[</span><span class="token string">'text'</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token comment" spellcheck="true">#判断item的text属性书是否存在</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>len<span class="token punctuation">(</span>item<span class="token punctuation">[</span><span class="token string">'text'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">></span>self<span class="token punctuation">.</span>limit<span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token comment" spellcheck="true">#大于50，截断后拼接省略号，返回item即可</span>
+                item<span class="token punctuation">[</span><span class="token string">'text'</span><span class="token punctuation">]</span><span class="token operator">=</span>item<span class="token punctuation">[</span><span class="token string">'text'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span>self<span class="token punctuation">.</span>limit<span class="token punctuation">]</span><span class="token punctuation">.</span>rstrip<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">'...'</span>
+            <span class="token keyword">return</span> item
+        <span class="token keyword">else</span><span class="token punctuation">:</span><span class="token comment" spellcheck="true">#text属性不存在，就抛出异常</span>
+            <span class="token keyword">return</span> DropItem<span class="token punctuation">(</span><span class="token string">'Missing Text'</span><span class="token punctuation">)</span></code></pre>
+<p>将处理逗得item存入mongoDB，定义另外一个类pipeline，同样再pipelines.py中，实现MongoPipeline类，内容为：</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> pymongo
+<span class="token keyword">class</span> <span class="token class-name">MongoPipeline</span><span class="token punctuation">(</span>object<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span>mongo_uri<span class="token punctuation">,</span>mongo_db<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>mongo_uri<span class="token operator">=</span>mongo_uri
+        self<span class="token punctuation">.</span>mongo_db<span class="token operator">=</span>mongo_db
+    @classmethod
+    <span class="token keyword">def</span> <span class="token function">from_crawler</span><span class="token punctuation">(</span>cls<span class="token punctuation">,</span>crawler<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> cls<span class="token punctuation">(</span>
+            mongo_uri<span class="token operator">=</span>crawler<span class="token punctuation">.</span>settings<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'MONGO_URI'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            mongo_db<span class="token operator">=</span>crawler<span class="token punctuation">.</span>settings<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'MONGO_DB'</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">#crawler()类方法，用 @classmethod标识，参数为crawler,通过crawler可以得到全局配置的每个配置信息。</span>
+    <span class="token comment" spellcheck="true">#在全局配置settings.py中，定义了MONGO_URI和MONGO_DB来指定mongoDB连接需要的地址和数据库名称，拿到配置信息之后，返回类对象即可</span>
+
+    <span class="token keyword">def</span> <span class="token function">open_spider</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span>spider<span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token comment" spellcheck="true">#当spider开启时，被调用。进行一些初始化的操作</span>
+        self<span class="token punctuation">.</span>client<span class="token operator">=</span>pymongo<span class="token punctuation">.</span>MongoClient<span class="token punctuation">(</span>self<span class="token punctuation">.</span>mongo_uri<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>db<span class="token operator">=</span>self<span class="token punctuation">.</span>client<span class="token punctuation">[</span>self<span class="token punctuation">.</span>mongo_db<span class="token punctuation">]</span>
+
+    <span class="token keyword">def</span> <span class="token function">process_item</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span>item<span class="token punctuation">,</span>spider<span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token comment" spellcheck="true">#执行数据库的插入操作</span>
+        name<span class="token operator">=</span>item<span class="token punctuation">.</span>__class__<span class="token punctuation">.</span>__name__
+        self<span class="token punctuation">.</span>db<span class="token punctuation">[</span>name<span class="token punctuation">]</span><span class="token punctuation">.</span>insert<span class="token punctuation">(</span>dict<span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> item
+
+    <span class="token keyword">def</span> <span class="token function">close_spider</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span>spider<span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token comment" spellcheck="true">#当spider关闭时，被调用。将数据库的连接关闭</span>
+        self<span class="token punctuation">.</span>client<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>定义好这两个类后，需要在settings.py使用它们。MongoDB的连接信息还需要被定义。</p>
+<p>在settings.py中加入下列信息：</p>
+<pre class=" language-python"><code class="language-python">ITEM_PIPELINES<span class="token operator">=</span><span class="token punctuation">{</span>
+    <span class="token string">'tutorial.pipelines.TextPipeline'</span><span class="token punctuation">:</span> <span class="token number">300</span><span class="token punctuation">,</span>
+    <span class="token string">'tutorial.pipelines.MongoPipeline'</span><span class="token punctuation">:</span> <span class="token number">400</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">#赋值ITEM_PIPELINES字典，键名是Pipeline的类名称，键值是调用优先级，值越小，越优先被调用</span>
+MONGO_URI<span class="token operator">=</span><span class="token string">'localhost'</span>
+MONGO_DB<span class="token operator">=</span>'tutorial</code></pre>
+<p>在执行爬取，命令</p>
+<pre class=" language-python"><code class="language-python">scrapy crawl quotes</code></pre>
+<p>爬取结束，MongoDB建立了一个tutorial的数据库，QuoteItem的表。</p>
+<p>查看数据库数据</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> pymongo
+client<span class="token operator">=</span>pymongo<span class="token punctuation">.</span>MongoClient<span class="token punctuation">(</span>host<span class="token operator">=</span><span class="token string">'localhost'</span><span class="token punctuation">,</span>port<span class="token operator">=</span><span class="token number">27017</span><span class="token punctuation">)</span>
+
+db<span class="token operator">=</span>client<span class="token punctuation">.</span>tutorial
+collection<span class="token operator">=</span>db<span class="token punctuation">.</span>QuoteItem
+results<span class="token operator">=</span>collection<span class="token punctuation">.</span>find<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> res <span class="token keyword">in</span> results<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span></code></pre>
+<p>输出结果：</p>
+<pre class=" language-mysql"><code class="language-mysql">...
+{'_id': ObjectId('5e26c23d847b30492259733a'), 'text': "“You may say I'm a dreamer, but I'm not the only o...", 'author': 'John Lennon', 'tags': ['beatles', 'connection', 'dreamers', 'dreaming', 'dreams', 'hope', 'inspirational', 'peace']}
+{'_id': ObjectId('5e26c23d847b30492259733b'), 'text': '“I am free of all prejudice. I hate everyone equal...', 'author': 'W.C. Fields', 'tags': ['humor', 'sinister']}
+{'_id': ObjectId('5e26c23d847b30492259733c'), 'text': "“The question isn't who is going to let me; it's w...", 'author': 'Ayn Rand', 'tags': []}
+{'_id': ObjectId('5e26c23d847b30492259733d'), 'text': "“′Classic′ - a book which people praise and don't...", 'author': 'Mark Twain', 'tags': ['books', 'classic', 'reading']}
+{'_id': ObjectId('5e26c23e847b30492259733e'), 'text': '“Anyone who has never made a mistake has never tri...', 'author': 'Albert Einstein', 'tags': ['mistakes']}
+{'_id': ObjectId('5e26c23e847b30492259733f'), 'text': "“A lady's imagination is very rapid; it jumps from...", 'author': 'Jane Austen', 'tags': ['humor', 'love', 'romantic', 'women']}
+...</code></pre>
+
+            </div>
+            <hr/>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《scrapy框架的使用》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2020/01/17/scrapy/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                White Spider
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2020/01/23/mitmproxy/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="mitmproxy使用">
+                        
+                        <span class="card-title">mitmproxy使用</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            mitmproxy,mymongo,mitmdump
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2020-01-23
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/爬虫-app数据爬取/" class="post-category" target="_blank">
+                                    爬虫,app数据爬取
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/mitmproxy-python3/" target="_blank">
+                        <span class="chip bg-color">mitmproxy python3</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/12/12/实战/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="实战案例">
+                        
+                        <span class="card-title">实战案例</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            requests,pyquery,os,multiprocessing
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-12-12
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Ajax数据爬取/" class="post-category" target="_blank">
+                                    Ajax数据爬取
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/requests-pyquery-os-multiprocessing-python3/" target="_blank">
+                        <span class="chip bg-color">requests pyquery os multiprocessing python3</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4,h5,h6'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4,h5,h6').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            本站由&nbsp;&copy;<a href="https://blinkfox.github.io/" target="_blank">Blinkfox</a>&nbsp;基于
+            <a href="https://hexo.io/" target="_blank">Hexo</a>&nbsp;的
+            <a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>&nbsp;主题搭建
+            <br>
+            
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">43.8k</span>&nbsp;字
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="fa fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fa fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            <br>
+            <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+            <script>
+                var now = new Date();
+
+                function createtime() {
+                    var grt = new Date("08/1/2019 00:00:00");
+                    now.setTime(now.getTime() + 250);
+                    days = (now - grt) / 1000 / 60 / 60 / 24;
+                    dnum = Math.floor(days);
+                    hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+                    hnum = Math.floor(hours);
+                    if (String(hnum).length == 1) {
+                        hnum = "0" + hnum;
+                    }
+                    minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+                    mnum = Math.floor(minutes);
+                    if (String(mnum).length == 1) {
+                        mnum = "0" + mnum;
+                    }
+                    seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+                    snum = Math.round(seconds);
+                    if (String(snum).length == 1) {
+                        snum = "0" + snum;
+                    }
+                    document.getElementById("timeDate").innerHTML = "本站已安全运行 " + dnum + " 天 ";
+                    document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+                }
+                setInterval("createtime()", 250);
+            </script>
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="/libs/materialize/materialize.min.js"></script>
+<script src="/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="/libs/aos/aos.js"></script>
+<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    <script src="/libs/others/clicklove.js"></script>
+
+
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+
+
+</body>
+</html>
